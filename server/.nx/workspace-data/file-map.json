@@ -1,0 +1,1689 @@
+{
+  "version": "6.0",
+  "nxVersion": "20.8.2",
+  "pathMappings": {
+    "@packages/*": [
+      "packages/*"
+    ]
+  },
+  "nxJsonPlugins": [
+    {
+      "name": "@nx/js/typescript",
+      "options": {
+        "typecheck": {
+          "targetName": "typecheck"
+        },
+        "build": {
+          "targetName": "build",
+          "configName": "tsconfig.lib.json",
+          "buildDepsName": "build-deps",
+          "watchDepsName": "watch-deps"
+        }
+      }
+    },
+    {
+      "name": "@nx/jest/plugin",
+      "options": {
+        "targetName": "test"
+      }
+    },
+    {
+      "name": "@nx/webpack/plugin",
+      "options": {
+        "buildTargetName": "build",
+        "serveTargetName": "serve",
+        "previewTargetName": "preview",
+        "buildDepsTargetName": "build-deps",
+        "watchDepsTargetName": "watch-deps"
+      }
+    },
+    {
+      "name": "@nx/next/plugin",
+      "options": {
+        "startTargetName": "start",
+        "buildTargetName": "build",
+        "devTargetName": "dev",
+        "serveStaticTargetName": "serve-static",
+        "buildDepsTargetName": "build-deps",
+        "watchDepsTargetName": "watch-deps"
+      }
+    }
+  ],
+  "fileMap": {
+    "nonProjectFiles": [
+      {
+        "file": ".nx/workspace-data/next-17064054913098911197.json",
+        "hash": "1389868326933519382"
+      },
+      {
+        "file": "tsconfig.json",
+        "hash": "101249484914343072"
+      },
+      {
+        "file": "jest.preset.js",
+        "hash": "13737983450217408137"
+      },
+      {
+        "file": "packages/utils/package.json",
+        "hash": "11792387173095388328"
+      },
+      {
+        "file": "README.md",
+        "hash": "1093235667157465304"
+      },
+      {
+        "file": ".env.example",
+        "hash": "16066382212815240893"
+      },
+      {
+        "file": "nginx.conf",
+        "hash": "1514379710077056563"
+      },
+      {
+        "file": ".nx/workspace-data/source-maps.json",
+        "hash": "17692783449959718772"
+      },
+      {
+        "file": "nx.json",
+        "hash": "10766780030019841546"
+      },
+      {
+        "file": "scripts/ec2-user-data.sh",
+        "hash": "14168466998101034849"
+      },
+      {
+        "file": ".nx/workspace-data/tsconfig-files.hash",
+        "hash": "13066170068161461830"
+      },
+      {
+        "file": ".nx/workspace-data/webpack-5621830741124012108.hash",
+        "hash": "13827281906650207089"
+      },
+      {
+        "file": "help.sh",
+        "hash": "297419223383054602"
+      },
+      {
+        "file": "docker-compose.dev.yml",
+        "hash": "1472754103230989406"
+      },
+      {
+        "file": "pnpm-workspace.yaml",
+        "hash": "16269865673416750638"
+      },
+      {
+        "file": ".nx/workspace-data/nx_files.nxt",
+        "hash": "3469946514189549866"
+      },
+      {
+        "file": "packages/tsconfig.json",
+        "hash": "17028616127726703960"
+      },
+      {
+        "file": "pnpm-lock.yaml",
+        "hash": "7807733670035885657"
+      },
+      {
+        "file": "jest.config.ts",
+        "hash": "14236175072743533737"
+      },
+      {
+        "file": "LICENSE",
+        "hash": "498592096882331649"
+      },
+      {
+        "file": ".nx/workspace-data/tsc-2568428459166798129.hash",
+        "hash": "13180422554940595980"
+      },
+      {
+        "file": ".nx/workspace-data/d/server-process.json",
+        "hash": "1847644851418272358"
+      },
+      {
+        "file": ".nx/workspace-data/9EC08E70-4358-5F34-8ED5-C8268827EC87.db-wal",
+        "hash": "13168698883077279602"
+      },
+      {
+        "file": "scripts/local-production.sh",
+        "hash": "2947808440939861695"
+      },
+      {
+        "file": ".nx/workspace-data/9EC08E70-4358-5F34-8ED5-C8268827EC87.db-shm",
+        "hash": "16906650142313593407"
+      },
+      {
+        "file": ".nx/workspace-data/project-graph.json",
+        "hash": "12774672441637991267"
+      },
+      {
+        "file": ".nx/workspace-data/file-map.json",
+        "hash": "13204565936961419545"
+      },
+      {
+        "file": ".nx/workspace-data/jest-7930610538513362720.hash",
+        "hash": "4016678909155914514"
+      },
+      {
+        "file": "tsconfig.base.json",
+        "hash": "12686642069968831504"
+      },
+      {
+        "file": "scripts/deploy-production.sh",
+        "hash": "7407018562599851817"
+      },
+      {
+        "file": ".env",
+        "hash": "3244421341483603138"
+      },
+      {
+        "file": "packages/libs/package.json",
+        "hash": "11358733571286220934"
+      },
+      {
+        "file": "docker-compose.production.yml",
+        "hash": "623210822899150149"
+      },
+      {
+        "file": "prisma/schema.prisma",
+        "hash": "4859335879092634855"
+      },
+      {
+        "file": "package.json",
+        "hash": "3744843323590545497"
+      }
+    ],
+    "projectFileMap": {
+      "recommendation-service": [
+        {
+          "file": "apps/recommendation-service/.dockerignore",
+          "hash": "17196844645804529079"
+        },
+        {
+          "file": "apps/recommendation-service/Dockerfile",
+          "hash": "15646109768615672024"
+        },
+        {
+          "file": "apps/recommendation-service/dist/assets/.gitkeep",
+          "hash": "3244421341483603138"
+        },
+        {
+          "file": "apps/recommendation-service/dist/main.js",
+          "hash": "309805464092711289",
+          "deps": [
+            [
+              "npm:tslib",
+              "dynamic"
+            ],
+            [
+              "npm:@prisma/client",
+              "dynamic"
+            ],
+            [
+              "npm:encoding",
+              "dynamic"
+            ]
+          ]
+        },
+        {
+          "file": "apps/recommendation-service/dist/main.js.map",
+          "hash": "8278024859085993411"
+        },
+        {
+          "file": "apps/recommendation-service/dist/package.json",
+          "hash": "5912384829073226029"
+        },
+        {
+          "file": "apps/recommendation-service/dist/pnpm-lock.yaml",
+          "hash": "7807733670035885657"
+        },
+        {
+          "file": "apps/recommendation-service/entrypoint.sh",
+          "hash": "4142666024383141933"
+        },
+        {
+          "file": "apps/recommendation-service/package.json",
+          "hash": "16611371965126300200",
+          "deps": [
+            "npm:@types/express",
+            "npm:@types/cors",
+            "npm:@types/cookie-parser",
+            "npm:@types/node@20.19.9",
+            "npm:prisma",
+            "npm:express",
+            "npm:cors",
+            "npm:dotenv@16.6.1",
+            "npm:tslib",
+            "@eshop/error-handler",
+            "@eshop/prisma",
+            "npm:typescript",
+            "npm:jsonwebtoken",
+            "npm:cookie-parser",
+            "npm:path",
+            "npm:@prisma/client",
+            "npm:@tensorflow/tfjs",
+            "npm:@tensorflow/tfjs-backend-cpu"
+          ]
+        },
+        {
+          "file": "apps/recommendation-service/project.json",
+          "hash": "1658755071594946516"
+        },
+        {
+          "file": "apps/recommendation-service/src/assets/.gitkeep",
+          "hash": "3244421341483603138"
+        },
+        {
+          "file": "apps/recommendation-service/src/controllers/recommendation-controller.ts",
+          "hash": "11806986802543757661",
+          "deps": [
+            "@eshop/prisma",
+            "npm:express"
+          ]
+        },
+        {
+          "file": "apps/recommendation-service/src/main.ts",
+          "hash": "9326807352105329679",
+          "deps": [
+            "npm:express",
+            "npm:cookie-parser"
+          ]
+        },
+        {
+          "file": "apps/recommendation-service/src/routes/recommendation.route.ts",
+          "hash": "12632949026071229064",
+          "deps": [
+            "npm:express",
+            "@eshop/middleware"
+          ]
+        },
+        {
+          "file": "apps/recommendation-service/src/services/fetch-user-activity.ts",
+          "hash": "10434616902643213892",
+          "deps": [
+            "@eshop/prisma"
+          ]
+        },
+        {
+          "file": "apps/recommendation-service/src/services/recommendationService.ts",
+          "hash": "4669829134473432047",
+          "deps": [
+            "npm:@tensorflow/tfjs",
+            "npm:@tensorflow/tfjs-backend-cpu"
+          ]
+        },
+        {
+          "file": "apps/recommendation-service/src/utils/preProcessData.ts",
+          "hash": "14837130527359767874",
+          "deps": [
+            "npm:@prisma/client"
+          ]
+        },
+        {
+          "file": "apps/recommendation-service/tsconfig.app.json",
+          "hash": "1877641147926893633"
+        },
+        {
+          "file": "apps/recommendation-service/tsconfig.json",
+          "hash": "6240538891403235665"
+        },
+        {
+          "file": "apps/recommendation-service/webpack.config.js",
+          "hash": "4852644574315766870",
+          "deps": [
+            "npm:@nx/webpack"
+          ]
+        }
+      ],
+      "kafka-service": [
+        {
+          "file": "apps/kafka-service/.dockerignore",
+          "hash": "17196844645804529079"
+        },
+        {
+          "file": "apps/kafka-service/Dockerfile",
+          "hash": "11149765457805467926"
+        },
+        {
+          "file": "apps/kafka-service/dist/assets/.gitkeep",
+          "hash": "3244421341483603138"
+        },
+        {
+          "file": "apps/kafka-service/dist/main.js",
+          "hash": "3416011805555619744",
+          "deps": [
+            [
+              "npm:tslib",
+              "dynamic"
+            ],
+            [
+              "npm:@prisma/client",
+              "dynamic"
+            ]
+          ]
+        },
+        {
+          "file": "apps/kafka-service/dist/main.js.map",
+          "hash": "15558149376485403907"
+        },
+        {
+          "file": "apps/kafka-service/dist/package.json",
+          "hash": "10928268904758564751"
+        },
+        {
+          "file": "apps/kafka-service/dist/pnpm-lock.yaml",
+          "hash": "14414051714787560535"
+        },
+        {
+          "file": "apps/kafka-service/package.json",
+          "hash": "13724730092800841410",
+          "deps": [
+            "npm:@types/node@20.19.9",
+            "npm:prisma",
+            "npm:tslib",
+            "npm:typescript",
+            "npm:kafkajs",
+            "npm:@prisma/client"
+          ]
+        },
+        {
+          "file": "apps/kafka-service/project.json",
+          "hash": "12084337037347820941"
+        },
+        {
+          "file": "apps/kafka-service/src/assets/.gitkeep",
+          "hash": "3244421341483603138"
+        },
+        {
+          "file": "apps/kafka-service/src/main.ts",
+          "hash": "8918460906999687760",
+          "deps": [
+            "@eshop/kafka"
+          ]
+        },
+        {
+          "file": "apps/kafka-service/src/services/analytics.service.ts",
+          "hash": "13263448989127188195",
+          "deps": [
+            "@eshop/prisma"
+          ]
+        },
+        {
+          "file": "apps/kafka-service/tsconfig.app.json",
+          "hash": "12639251519548363532"
+        },
+        {
+          "file": "apps/kafka-service/tsconfig.json",
+          "hash": "6240538891403235665"
+        },
+        {
+          "file": "apps/kafka-service/webpack.config.js",
+          "hash": "7341197900045687217",
+          "deps": [
+            "npm:@nx/webpack"
+          ]
+        }
+      ],
+      "chatting-service": [
+        {
+          "file": "apps/chatting-service/.dockerignore",
+          "hash": "17196844645804529079"
+        },
+        {
+          "file": "apps/chatting-service/Dockerfile",
+          "hash": "3569298678399511047"
+        },
+        {
+          "file": "apps/chatting-service/dist/main.js",
+          "hash": "5235942901963844195",
+          "deps": [
+            [
+              "npm:tslib",
+              "dynamic"
+            ],
+            [
+              "npm:@prisma/client",
+              "dynamic"
+            ]
+          ]
+        },
+        {
+          "file": "apps/chatting-service/dist/main.js.map",
+          "hash": "3918744741522709021"
+        },
+        {
+          "file": "apps/chatting-service/dist/package.json",
+          "hash": "12961161608531034032"
+        },
+        {
+          "file": "apps/chatting-service/dist/pnpm-lock.yaml",
+          "hash": "7807733670035885657"
+        },
+        {
+          "file": "apps/chatting-service/package.json",
+          "hash": "8660238672802838137",
+          "deps": [
+            "npm:@types/express",
+            "npm:@types/cors",
+            "npm:@types/cookie-parser",
+            "npm:@types/node@20.19.9",
+            "npm:@types/ws",
+            "npm:prisma",
+            "npm:express",
+            "npm:cors",
+            "npm:socket.io",
+            "npm:dotenv@16.6.1",
+            "npm:tslib",
+            "@eshop/error-handler",
+            "@eshop/prisma",
+            "npm:typescript",
+            "npm:cookie-parser",
+            "npm:path",
+            "npm:@prisma/client",
+            "npm:jsonwebtoken",
+            "npm:kafkajs",
+            "npm:ws@8.18.3",
+            "npm:ioredis"
+          ]
+        },
+        {
+          "file": "apps/chatting-service/project.json",
+          "hash": "17690387054996107922"
+        },
+        {
+          "file": "apps/chatting-service/src/assets/.gitkeep",
+          "hash": "3244421341483603138"
+        },
+        {
+          "file": "apps/chatting-service/src/chat-message.consumer.ts",
+          "hash": "5578927291274470637",
+          "deps": [
+            "@eshop/kafka",
+            "@eshop/prisma",
+            "npm:kafkajs",
+            "@eshop/redis"
+          ]
+        },
+        {
+          "file": "apps/chatting-service/src/controllers/chatting.controllers.ts",
+          "hash": "6036228969454360002",
+          "deps": [
+            "@eshop/error-handler",
+            "@eshop/prisma",
+            "@eshop/redis",
+            "npm:express"
+          ]
+        },
+        {
+          "file": "apps/chatting-service/src/main.ts",
+          "hash": "12028960167190995563",
+          "deps": [
+            "npm:express",
+            "npm:cookie-parser"
+          ]
+        },
+        {
+          "file": "apps/chatting-service/src/routes/chat.routes.ts",
+          "hash": "15780872620812753108",
+          "deps": [
+            "@eshop/middleware",
+            "npm:express"
+          ]
+        },
+        {
+          "file": "apps/chatting-service/src/websocket.ts",
+          "hash": "10866356617989870627",
+          "deps": [
+            "@eshop/redis",
+            "@eshop/kafka",
+            "npm:ws@8.18.3"
+          ]
+        },
+        {
+          "file": "apps/chatting-service/tsconfig.app.json",
+          "hash": "13463845353503655889"
+        },
+        {
+          "file": "apps/chatting-service/tsconfig.json",
+          "hash": "6240538891403235665"
+        },
+        {
+          "file": "apps/chatting-service/webpack.config.js",
+          "hash": "14195043773053626186",
+          "deps": [
+            "npm:@nx/webpack"
+          ]
+        }
+      ],
+      "@eshop/logs": [
+        {
+          "file": "packages/utils/logs/package.json",
+          "hash": "9699871158143673381"
+        },
+        {
+          "file": "packages/utils/logs/send-logs.ts",
+          "hash": "6089506477325177984",
+          "deps": [
+            "@eshop/kafka"
+          ]
+        }
+      ],
+      "admin-service": [
+        {
+          "file": "apps/admin-service/.dockerignore",
+          "hash": "17196844645804529079"
+        },
+        {
+          "file": "apps/admin-service/Dockerfile",
+          "hash": "4074315978728085281"
+        },
+        {
+          "file": "apps/admin-service/dist/main.js",
+          "hash": "9977113765108708481",
+          "deps": [
+            [
+              "npm:tslib",
+              "dynamic"
+            ],
+            [
+              "npm:@prisma/client",
+              "dynamic"
+            ]
+          ]
+        },
+        {
+          "file": "apps/admin-service/dist/main.js.map",
+          "hash": "548949096172135939"
+        },
+        {
+          "file": "apps/admin-service/dist/package.json",
+          "hash": "17670558654928558056"
+        },
+        {
+          "file": "apps/admin-service/dist/pnpm-lock.yaml",
+          "hash": "7807733670035885657"
+        },
+        {
+          "file": "apps/admin-service/entrypoint.sh",
+          "hash": "4142666024383141933"
+        },
+        {
+          "file": "apps/admin-service/package.json",
+          "hash": "12330506748946275796",
+          "deps": [
+            "npm:@types/express",
+            "npm:@types/cors",
+            "npm:@types/cookie-parser",
+            "npm:@types/node@20.19.9",
+            "npm:@types/jsonwebtoken",
+            "npm:prisma",
+            "npm:express",
+            "npm:cors",
+            "npm:dotenv@16.6.1",
+            "npm:tslib",
+            "npm:typescript",
+            "npm:cookie-parser",
+            "npm:path",
+            "npm:@prisma/client",
+            "npm:jsonwebtoken"
+          ]
+        },
+        {
+          "file": "apps/admin-service/project.json",
+          "hash": "14848488067056327310"
+        },
+        {
+          "file": "apps/admin-service/src/assets/.gitkeep",
+          "hash": "3244421341483603138"
+        },
+        {
+          "file": "apps/admin-service/src/controllers/admin.controller.ts",
+          "hash": "11234929427565618713",
+          "deps": [
+            "@eshop/error-handler",
+            "@eshop/prisma",
+            "npm:express"
+          ]
+        },
+        {
+          "file": "apps/admin-service/src/main.ts",
+          "hash": "11569044683640176554",
+          "deps": [
+            "npm:express",
+            "npm:cookie-parser",
+            "@eshop/error-handler"
+          ]
+        },
+        {
+          "file": "apps/admin-service/src/routes/admin.route.ts",
+          "hash": "10138288089871218144",
+          "deps": [
+            "@eshop/middleware",
+            "npm:express"
+          ]
+        },
+        {
+          "file": "apps/admin-service/tsconfig.app.json",
+          "hash": "9038903584118230398"
+        },
+        {
+          "file": "apps/admin-service/tsconfig.json",
+          "hash": "6240538891403235665"
+        },
+        {
+          "file": "apps/admin-service/webpack.config.js",
+          "hash": "14195043773053626186",
+          "deps": [
+            "npm:@nx/webpack"
+          ]
+        }
+      ],
+      "seller-service": [
+        {
+          "file": "apps/seller-service/.dockerignore",
+          "hash": "17196844645804529079"
+        },
+        {
+          "file": "apps/seller-service/Dockerfile",
+          "hash": "15207225567098140659"
+        },
+        {
+          "file": "apps/seller-service/dist/assets/.gitkeep",
+          "hash": "3244421341483603138"
+        },
+        {
+          "file": "apps/seller-service/dist/main.js",
+          "hash": "10277321308734761118",
+          "deps": [
+            [
+              "npm:tslib",
+              "dynamic"
+            ],
+            [
+              "npm:@prisma/client",
+              "dynamic"
+            ]
+          ]
+        },
+        {
+          "file": "apps/seller-service/dist/main.js.map",
+          "hash": "14562823510952090756"
+        },
+        {
+          "file": "apps/seller-service/dist/package.json",
+          "hash": "483144825513048541"
+        },
+        {
+          "file": "apps/seller-service/dist/pnpm-lock.yaml",
+          "hash": "7807733670035885657"
+        },
+        {
+          "file": "apps/seller-service/entrypoint.sh",
+          "hash": "4142666024383141933"
+        },
+        {
+          "file": "apps/seller-service/package.json",
+          "hash": "2481109220229813696",
+          "deps": [
+            "npm:@types/express",
+            "npm:@types/cors",
+            "npm:@types/cookie-parser",
+            "npm:@types/node@20.19.9",
+            "npm:@types/node-cron",
+            "npm:@types/ioredis",
+            "npm:prisma",
+            "npm:express",
+            "npm:cors",
+            "npm:cookie-parser",
+            "npm:swagger-ui-express",
+            "npm:bcryptjs",
+            "npm:jsonwebtoken",
+            "npm:dotenv@16.6.1",
+            "npm:ejs",
+            "npm:nodemailer",
+            "npm:path",
+            "npm:swagger-autogen",
+            "npm:stripe",
+            "npm:tslib",
+            "npm:ioredis",
+            "@eshop/error-handler",
+            "@eshop/prisma",
+            "@eshop/redis",
+            "@eshop/middleware",
+            "@eshop/logs",
+            "npm:typescript",
+            "npm:@prisma/client",
+            "npm:node-cron",
+            "npm:imagekit@3.2.5"
+          ]
+        },
+        {
+          "file": "apps/seller-service/project.json",
+          "hash": "789175277370361085"
+        },
+        {
+          "file": "apps/seller-service/src/assets/.gitkeep",
+          "hash": "3244421341483603138"
+        },
+        {
+          "file": "apps/seller-service/src/controllers/seller.controller.ts",
+          "hash": "7760459580211923589",
+          "deps": [
+            "@eshop/error-handler",
+            "@eshop/imagekit",
+            "@eshop/prisma",
+            "npm:express"
+          ]
+        },
+        {
+          "file": "apps/seller-service/src/jobs/seller.cron.jobs.ts",
+          "hash": "10214930742725320537",
+          "deps": [
+            "@eshop/prisma",
+            "npm:node-cron"
+          ]
+        },
+        {
+          "file": "apps/seller-service/src/main.ts",
+          "hash": "356110387802685304",
+          "deps": [
+            "@eshop/error-handler",
+            "npm:cookie-parser",
+            "npm:cors",
+            "npm:express",
+            "npm:swagger-ui-express"
+          ]
+        },
+        {
+          "file": "apps/seller-service/src/routes/seller.routes.ts",
+          "hash": "11045000695759108308",
+          "deps": [
+            "@eshop/middleware",
+            "npm:express"
+          ]
+        },
+        {
+          "file": "apps/seller-service/src/swagger-output.json",
+          "hash": "12373743953699935329"
+        },
+        {
+          "file": "apps/seller-service/src/swagger.js",
+          "hash": "11262009008097671456",
+          "deps": [
+            "npm:swagger-autogen"
+          ]
+        },
+        {
+          "file": "apps/seller-service/tsconfig.app.json",
+          "hash": "13936405497759830164"
+        },
+        {
+          "file": "apps/seller-service/tsconfig.json",
+          "hash": "6240538891403235665"
+        },
+        {
+          "file": "apps/seller-service/webpack.config.js",
+          "hash": "7341197900045687217",
+          "deps": [
+            "npm:@nx/webpack"
+          ]
+        }
+      ],
+      "order-service": [
+        {
+          "file": "apps/order-service/.dockerignore",
+          "hash": "17196844645804529079"
+        },
+        {
+          "file": "apps/order-service/Dockerfile",
+          "hash": "1166540704749612124"
+        },
+        {
+          "file": "apps/order-service/entrypoint.sh",
+          "hash": "4142666024383141933"
+        },
+        {
+          "file": "apps/order-service/package.json",
+          "hash": "13870048243996899700",
+          "deps": [
+            "npm:@types/express",
+            "npm:@types/cors",
+            "npm:@types/cookie-parser",
+            "npm:@types/node@20.19.9",
+            "npm:@types/nodemailer",
+            "npm:@types/body-parser",
+            "npm:@types/jsonwebtoken",
+            "npm:prisma",
+            "npm:express",
+            "npm:cors",
+            "npm:cookie-parser",
+            "npm:body-parser",
+            "npm:dotenv@16.6.1",
+            "npm:ejs",
+            "npm:nodemailer",
+            "npm:tslib",
+            "@eshop/error-handler",
+            "@eshop/prisma",
+            "npm:typescript",
+            "npm:path",
+            "npm:@prisma/client",
+            "npm:stripe",
+            "npm:crypto",
+            "npm:jsonwebtoken",
+            "npm:ioredis"
+          ]
+        },
+        {
+          "file": "apps/order-service/project.json",
+          "hash": "8114281934312443666"
+        },
+        {
+          "file": "apps/order-service/src/controllers/order.controller.ts",
+          "hash": "14500593195962072096",
+          "deps": [
+            "@eshop/error-handler",
+            "@eshop/prisma",
+            "@eshop/redis",
+            "npm:@prisma/client",
+            "npm:express",
+            "npm:stripe"
+          ]
+        },
+        {
+          "file": "apps/order-service/src/main.ts",
+          "hash": "15629117735023289957",
+          "deps": [
+            "npm:express",
+            "npm:cors",
+            "npm:cookie-parser",
+            "npm:body-parser",
+            "@eshop/error-handler"
+          ]
+        },
+        {
+          "file": "apps/order-service/src/routes/order.route.ts",
+          "hash": "7367430193699736586",
+          "deps": [
+            "@eshop/middleware",
+            "npm:express"
+          ]
+        },
+        {
+          "file": "apps/order-service/src/utils/email-templates/order-confirmation.ejs",
+          "hash": "1460152926472282581"
+        },
+        {
+          "file": "apps/order-service/src/utils/send-email/index.ts",
+          "hash": "17418767039738153764",
+          "deps": [
+            "npm:nodemailer",
+            "npm:dotenv@16.6.1",
+            "npm:ejs"
+          ]
+        },
+        {
+          "file": "apps/order-service/tsconfig.app.json",
+          "hash": "15563098705946352466"
+        },
+        {
+          "file": "apps/order-service/tsconfig.json",
+          "hash": "6240538891403235665"
+        },
+        {
+          "file": "apps/order-service/webpack.config.js",
+          "hash": "14195043773053626186",
+          "deps": [
+            "npm:@nx/webpack"
+          ]
+        }
+      ],
+      "logger-service": [
+        {
+          "file": "apps/logger-service/.dockerignore",
+          "hash": "17196844645804529079"
+        },
+        {
+          "file": "apps/logger-service/Dockerfile",
+          "hash": "661511577672307905"
+        },
+        {
+          "file": "apps/logger-service/package.json",
+          "hash": "6676126703507625246",
+          "deps": [
+            "npm:@types/express",
+            "npm:@types/cors",
+            "npm:@types/cookie-parser",
+            "npm:@types/node@20.19.9",
+            "npm:@types/ws",
+            "npm:@types/jsonwebtoken",
+            "npm:prisma",
+            "npm:express",
+            "npm:cors",
+            "npm:dotenv@16.6.1",
+            "npm:tslib",
+            "@eshop/error-handler",
+            "@eshop/kafka",
+            "npm:typescript",
+            "npm:cookie-parser",
+            "npm:path",
+            "npm:ws@8.18.3",
+            "npm:kafkajs",
+            "npm:@prisma/client",
+            "npm:jsonwebtoken",
+            "npm:ioredis"
+          ]
+        },
+        {
+          "file": "apps/logger-service/project.json",
+          "hash": "17927565028685763583"
+        },
+        {
+          "file": "apps/logger-service/src/assets/.gitkeep",
+          "hash": "3244421341483603138"
+        },
+        {
+          "file": "apps/logger-service/src/logger-consumer.ts",
+          "hash": "8549972032079562262",
+          "deps": [
+            "@eshop/kafka"
+          ]
+        },
+        {
+          "file": "apps/logger-service/src/main.ts",
+          "hash": "16262736204571814376",
+          "deps": [
+            "npm:express",
+            "npm:ws@8.18.3"
+          ]
+        },
+        {
+          "file": "apps/logger-service/tsconfig.app.json",
+          "hash": "3837876620863024486"
+        },
+        {
+          "file": "apps/logger-service/tsconfig.json",
+          "hash": "6240538891403235665"
+        },
+        {
+          "file": "apps/logger-service/webpack.config.js",
+          "hash": "7341197900045687217",
+          "deps": [
+            "npm:@nx/webpack"
+          ]
+        }
+      ],
+      "@eshop/error-handler": [
+        {
+          "file": "packages/error-handler/error-middleware.ts",
+          "hash": "5724176755876645081",
+          "deps": [
+            "npm:express"
+          ]
+        },
+        {
+          "file": "packages/error-handler/index.ts",
+          "hash": "14411561339301906232"
+        },
+        {
+          "file": "packages/error-handler/package.json",
+          "hash": "15003875625717712739",
+          "deps": [
+            "npm:@types/express",
+            "npm:@types/cors",
+            "npm:@types/cookie-parser",
+            "npm:@types/node@20.19.9",
+            "npm:typescript",
+            "npm:tslib",
+            "npm:express",
+            "npm:cors",
+            "npm:cookie-parser",
+            "npm:dotenv@16.6.1",
+            "npm:path"
+          ]
+        }
+      ],
+      "auth-service": [
+        {
+          "file": "apps/auth-service/.dockerignore",
+          "hash": "17196844645804529079"
+        },
+        {
+          "file": "apps/auth-service/.spec.swcrc",
+          "hash": "18201067170784284381"
+        },
+        {
+          "file": "apps/auth-service/Dockerfile",
+          "hash": "11752011071251723313"
+        },
+        {
+          "file": "apps/auth-service/dist/main.js",
+          "hash": "2606308475331572200",
+          "deps": [
+            [
+              "npm:tslib",
+              "dynamic"
+            ],
+            [
+              "npm:@prisma/client",
+              "dynamic"
+            ]
+          ]
+        },
+        {
+          "file": "apps/auth-service/dist/main.js.map",
+          "hash": "11548202340390238890"
+        },
+        {
+          "file": "apps/auth-service/dist/package.json",
+          "hash": "18444253686500193154"
+        },
+        {
+          "file": "apps/auth-service/dist/pnpm-lock.yaml",
+          "hash": "7807733670035885657"
+        },
+        {
+          "file": "apps/auth-service/entrypoint.sh",
+          "hash": "4142666024383141933"
+        },
+        {
+          "file": "apps/auth-service/jest.config.ts",
+          "hash": "14419562288517820898"
+        },
+        {
+          "file": "apps/auth-service/package.json",
+          "hash": "7323433268636671835",
+          "deps": [
+            "npm:@types/express",
+            "npm:@types/cors",
+            "npm:@types/cookie-parser",
+            "npm:@types/node@20.19.9",
+            "npm:@types/bcryptjs",
+            "npm:@types/jsonwebtoken",
+            "npm:@types/nodemailer",
+            "npm:prisma",
+            "npm:express",
+            "npm:cors",
+            "npm:dotenv@16.6.1",
+            "npm:cookie-parser",
+            "npm:jsonwebtoken",
+            "npm:@prisma/client",
+            "npm:tslib",
+            "npm:swagger-ui-express",
+            "npm:bcryptjs",
+            "npm:ejs",
+            "npm:nodemailer",
+            "npm:path",
+            "npm:swagger-autogen",
+            "npm:stripe",
+            "npm:kafkajs",
+            "npm:ioredis",
+            "npm:crypto",
+            "npm:typescript"
+          ]
+        },
+        {
+          "file": "apps/auth-service/project.json",
+          "hash": "17431704864723857884"
+        },
+        {
+          "file": "apps/auth-service/src/controller/auth.controller.ts",
+          "hash": "14512756214364179012",
+          "deps": [
+            "@eshop/error-handler",
+            "@eshop/prisma",
+            "@eshop/kafka",
+            "@eshop/logs",
+            "npm:bcryptjs",
+            "npm:express",
+            "npm:jsonwebtoken",
+            "npm:stripe"
+          ]
+        },
+        {
+          "file": "apps/auth-service/src/main.ts",
+          "hash": "15372218762623700936",
+          "deps": [
+            "npm:express",
+            "npm:cors",
+            "@eshop/error-handler",
+            "npm:cookie-parser",
+            "npm:swagger-ui-express"
+          ]
+        },
+        {
+          "file": "apps/auth-service/src/routes/auth.router.ts",
+          "hash": "14591468163599838607",
+          "deps": [
+            "@eshop/middleware",
+            "npm:express"
+          ]
+        },
+        {
+          "file": "apps/auth-service/src/swagger-output.json",
+          "hash": "7876740760245482011"
+        },
+        {
+          "file": "apps/auth-service/src/swagger.js",
+          "hash": "4793711144851460648",
+          "deps": [
+            "npm:swagger-autogen"
+          ]
+        },
+        {
+          "file": "apps/auth-service/src/utils/auth.helper.ts",
+          "hash": "10319924151449397307",
+          "deps": [
+            "@eshop/error-handler",
+            "@eshop/redis",
+            "npm:express",
+            "@eshop/prisma"
+          ]
+        },
+        {
+          "file": "apps/auth-service/src/utils/cookies/setCookie.ts",
+          "hash": "14664266439781480577",
+          "deps": [
+            "npm:express"
+          ]
+        },
+        {
+          "file": "apps/auth-service/src/utils/email-templates/forgot-password-user-mail.ejs",
+          "hash": "6233792552093086171"
+        },
+        {
+          "file": "apps/auth-service/src/utils/email-templates/seller-activation.ejs",
+          "hash": "2642617227579861133"
+        },
+        {
+          "file": "apps/auth-service/src/utils/email-templates/user-activation-mail.ejs",
+          "hash": "3345042187056949375"
+        },
+        {
+          "file": "apps/auth-service/src/utils/sendMail/index.ts",
+          "hash": "13838498876018001478",
+          "deps": [
+            "npm:nodemailer",
+            "npm:dotenv@16.6.1",
+            "npm:ejs"
+          ]
+        },
+        {
+          "file": "apps/auth-service/tsconfig.app.json",
+          "hash": "6408717923002926146"
+        },
+        {
+          "file": "apps/auth-service/tsconfig.json",
+          "hash": "9214820933160915425"
+        },
+        {
+          "file": "apps/auth-service/tsconfig.spec.json",
+          "hash": "8540766730778431787"
+        },
+        {
+          "file": "apps/auth-service/webpack.config.js",
+          "hash": "14195043773053626186",
+          "deps": [
+            "npm:@nx/webpack"
+          ]
+        }
+      ],
+      "@eshop/components": [
+        {
+          "file": "packages/components/color-selector/index.tsx",
+          "hash": "7878208526201667369",
+          "deps": [
+            "npm:react",
+            "npm:react-hook-form",
+            "npm:lucide-react"
+          ]
+        },
+        {
+          "file": "packages/components/custom-properties/index.tsx",
+          "hash": "12103707235555055378",
+          "deps": [
+            "npm:react",
+            "npm:react-hook-form",
+            "npm:lucide-react"
+          ]
+        },
+        {
+          "file": "packages/components/custom-specifications/index.tsx",
+          "hash": "4036811713734365117",
+          "deps": [
+            "npm:react",
+            "npm:react-hook-form",
+            "npm:lucide-react"
+          ]
+        },
+        {
+          "file": "packages/components/input/index.tsx",
+          "hash": "6218184658371888690",
+          "deps": [
+            "npm:react"
+          ]
+        },
+        {
+          "file": "packages/components/package.json",
+          "hash": "13945433714519827543",
+          "deps": [
+            "npm:react",
+            "npm:react-dom",
+            "npm:@types/react",
+            "npm:typescript",
+            "npm:react-hook-form",
+            "npm:lucide-react",
+            "npm:react-quill-new"
+          ]
+        },
+        {
+          "file": "packages/components/rich-text-editor/index.tsx",
+          "hash": "10148333010840111343",
+          "deps": [
+            "npm:react",
+            "npm:react-quill-new"
+          ]
+        },
+        {
+          "file": "packages/components/size-selector/index.tsx",
+          "hash": "10524657682412327827",
+          "deps": [
+            "npm:react-hook-form"
+          ]
+        }
+      ],
+      "@eshop/imagekit": [
+        {
+          "file": "packages/libs/imagekit/index.ts",
+          "hash": "17353034854501638952",
+          "deps": [
+            "npm:imagekit@6.0.0"
+          ]
+        },
+        {
+          "file": "packages/libs/imagekit/package.json",
+          "hash": "5850002745078782239",
+          "deps": [
+            "npm:imagekit@6.0.0"
+          ]
+        }
+      ],
+      "api-gateway": [
+        {
+          "file": "apps/api-gateway/.dockerignore",
+          "hash": "17196844645804529079"
+        },
+        {
+          "file": "apps/api-gateway/Dockerfile",
+          "hash": "5735042790303582471"
+        },
+        {
+          "file": "apps/api-gateway/dist/assets/.gitkeep",
+          "hash": "3244421341483603138"
+        },
+        {
+          "file": "apps/api-gateway/dist/main.js",
+          "hash": "14780068440881176199",
+          "deps": [
+            [
+              "npm:tslib",
+              "dynamic"
+            ],
+            [
+              "npm:@prisma/client",
+              "dynamic"
+            ]
+          ]
+        },
+        {
+          "file": "apps/api-gateway/dist/main.js.map",
+          "hash": "17162104406272231713"
+        },
+        {
+          "file": "apps/api-gateway/dist/package.json",
+          "hash": "366180107393402615"
+        },
+        {
+          "file": "apps/api-gateway/dist/pnpm-lock.yaml",
+          "hash": "7807733670035885657"
+        },
+        {
+          "file": "apps/api-gateway/package.json",
+          "hash": "7371455788147646882",
+          "deps": [
+            "npm:@types/express",
+            "npm:@types/cors",
+            "npm:@types/cookie-parser",
+            "npm:@types/node@20.19.9",
+            "npm:@types/morgan",
+            "npm:prisma",
+            "npm:express",
+            "npm:cors",
+            "npm:express-http-proxy",
+            "npm:morgan",
+            "npm:express-rate-limit",
+            "npm:cookie-parser",
+            "npm:@prisma/client",
+            "npm:typescript",
+            "npm:tslib",
+            "npm:dotenv@16.6.1",
+            "npm:path"
+          ]
+        },
+        {
+          "file": "apps/api-gateway/project.json",
+          "hash": "10674576127295559591"
+        },
+        {
+          "file": "apps/api-gateway/src/assets/.gitkeep",
+          "hash": "3244421341483603138"
+        },
+        {
+          "file": "apps/api-gateway/src/libs/initializeSiteConfig.ts",
+          "hash": "12857359029921846485",
+          "deps": [
+            "npm:@prisma/client"
+          ]
+        },
+        {
+          "file": "apps/api-gateway/src/main.ts",
+          "hash": "16438627719439995319",
+          "deps": [
+            "npm:express",
+            "npm:cors",
+            "npm:express-http-proxy",
+            "npm:morgan",
+            "npm:express-rate-limit",
+            "npm:cookie-parser"
+          ]
+        },
+        {
+          "file": "apps/api-gateway/tsconfig.app.json",
+          "hash": "2012512257056815781"
+        },
+        {
+          "file": "apps/api-gateway/tsconfig.json",
+          "hash": "6240538891403235665"
+        },
+        {
+          "file": "apps/api-gateway/webpack.config.js",
+          "hash": "8354317366887649689",
+          "deps": [
+            "npm:@nx/webpack"
+          ]
+        }
+      ],
+      "product-service": [
+        {
+          "file": "apps/product-service/.dockerignore",
+          "hash": "17196844645804529079"
+        },
+        {
+          "file": "apps/product-service/Dockerfile",
+          "hash": "17139624545707189385"
+        },
+        {
+          "file": "apps/product-service/dist/main.js",
+          "hash": "5716663792657710537",
+          "deps": [
+            [
+              "npm:tslib",
+              "dynamic"
+            ],
+            [
+              "npm:@prisma/client",
+              "dynamic"
+            ]
+          ]
+        },
+        {
+          "file": "apps/product-service/dist/main.js.map",
+          "hash": "1417408524386442109"
+        },
+        {
+          "file": "apps/product-service/dist/package.json",
+          "hash": "4517309534036583322"
+        },
+        {
+          "file": "apps/product-service/dist/pnpm-lock.yaml",
+          "hash": "7807733670035885657"
+        },
+        {
+          "file": "apps/product-service/entrypoint.sh",
+          "hash": "4142666024383141933"
+        },
+        {
+          "file": "apps/product-service/package.json",
+          "hash": "15251750396476773010",
+          "deps": [
+            "npm:@types/node@20.19.9",
+            "npm:@types/express",
+            "npm:@types/cors",
+            "npm:@types/morgan",
+            "npm:@types/cookie-parser",
+            "npm:@types/jsonwebtoken",
+            "npm:@types/node-cron",
+            "npm:prisma",
+            "npm:express",
+            "npm:cors",
+            "npm:cookie-parser",
+            "npm:swagger-ui-express",
+            "npm:swagger-autogen",
+            "npm:@prisma/client",
+            "npm:stripe",
+            "npm:node-cron",
+            "npm:imagekit@3.2.5",
+            "npm:jsonwebtoken",
+            "npm:reflect-metadata",
+            "npm:rxjs",
+            "npm:dotenv@16.6.1",
+            "npm:tslib",
+            "npm:path",
+            "npm:ejs",
+            "npm:iconv-lite@0.6.3",
+            "npm:typescript"
+          ]
+        },
+        {
+          "file": "apps/product-service/project.json",
+          "hash": "15209799603801191499"
+        },
+        {
+          "file": "apps/product-service/src/assets/.gitkeep",
+          "hash": "3244421341483603138"
+        },
+        {
+          "file": "apps/product-service/src/controllers/product.controller.ts",
+          "hash": "14811370098871546024",
+          "deps": [
+            "@eshop/error-handler",
+            "@eshop/imagekit",
+            "@eshop/prisma",
+            "npm:express",
+            "npm:stripe"
+          ]
+        },
+        {
+          "file": "apps/product-service/src/jobs/product-crone.job.ts",
+          "hash": "9211819610864073751",
+          "deps": [
+            "@eshop/prisma",
+            "npm:node-cron"
+          ]
+        },
+        {
+          "file": "apps/product-service/src/main.ts",
+          "hash": "16896367638348084169",
+          "deps": [
+            "@eshop/error-handler",
+            "npm:cookie-parser",
+            "npm:express"
+          ]
+        },
+        {
+          "file": "apps/product-service/src/routes/product.routes.ts",
+          "hash": "11115405879244115918",
+          "deps": [
+            "@eshop/middleware",
+            "npm:express"
+          ]
+        },
+        {
+          "file": "apps/product-service/src/swagger-output.json",
+          "hash": "15453023944475137206"
+        },
+        {
+          "file": "apps/product-service/src/swagger.js",
+          "hash": "6255443685620129314",
+          "deps": [
+            "npm:swagger-autogen"
+          ]
+        },
+        {
+          "file": "apps/product-service/tsconfig.app.json",
+          "hash": "8003497798495667725"
+        },
+        {
+          "file": "apps/product-service/tsconfig.json",
+          "hash": "6240538891403235665"
+        },
+        {
+          "file": "apps/product-service/webpack.config.js",
+          "hash": "14195043773053626186",
+          "deps": [
+            "npm:@nx/webpack"
+          ]
+        }
+      ],
+      "@eshop/middleware": [
+        {
+          "file": "packages/middleware/authorizeRoles.ts",
+          "hash": "4022506069291471347",
+          "deps": [
+            "@eshop/error-handler",
+            "npm:express"
+          ]
+        },
+        {
+          "file": "packages/middleware/isAuthenticated.ts",
+          "hash": "7894885566205104002",
+          "deps": [
+            "@eshop/prisma",
+            "npm:express",
+            "npm:jsonwebtoken"
+          ]
+        },
+        {
+          "file": "packages/middleware/package.json",
+          "hash": "13623145429496996207",
+          "deps": [
+            "npm:@types/express",
+            "npm:@types/cors",
+            "npm:@types/cookie-parser",
+            "npm:@types/node@20.19.9",
+            "npm:@types/jsonwebtoken",
+            "npm:@prisma/client",
+            "npm:express",
+            "npm:jsonwebtoken",
+            "npm:typescript",
+            "npm:tslib",
+            "npm:cors",
+            "npm:cookie-parser",
+            "npm:dotenv@16.6.1",
+            "npm:path"
+          ]
+        }
+      ],
+      "@eshop/kafka": [
+        {
+          "file": "packages/utils/kafka/index.ts",
+          "hash": "2982886393988586159",
+          "deps": [
+            "npm:kafkajs"
+          ]
+        },
+        {
+          "file": "packages/utils/kafka/package.json",
+          "hash": "5186982783559176447",
+          "deps": [
+            "npm:kafkajs"
+          ]
+        }
+      ],
+      "auth-service-e2e": [
+        {
+          "file": "apps/auth-service-e2e/.spec.swcrc",
+          "hash": "18201067170784284381"
+        },
+        {
+          "file": "apps/auth-service-e2e/jest.config.ts",
+          "hash": "14035935506273804089"
+        },
+        {
+          "file": "apps/auth-service-e2e/package.json",
+          "hash": "2523829884814687200"
+        },
+        {
+          "file": "apps/auth-service-e2e/src/auth-service/auth-service.spec.ts",
+          "hash": "7531705588582374674",
+          "deps": [
+            "npm:axios"
+          ]
+        },
+        {
+          "file": "apps/auth-service-e2e/src/support/global-setup.ts",
+          "hash": "14688124112638150235"
+        },
+        {
+          "file": "apps/auth-service-e2e/src/support/global-teardown.ts",
+          "hash": "10856769668484651558"
+        },
+        {
+          "file": "apps/auth-service-e2e/src/support/test-setup.ts",
+          "hash": "11749744855473391997",
+          "deps": [
+            "npm:axios"
+          ]
+        },
+        {
+          "file": "apps/auth-service-e2e/tsconfig.json",
+          "hash": "13419923907376593187"
+        }
+      ],
+      "@eshop/redis": [
+        {
+          "file": "packages/libs/redis/index.ts",
+          "hash": "11146147149254515156",
+          "deps": [
+            "npm:ioredis"
+          ]
+        },
+        {
+          "file": "packages/libs/redis/message.redis.ts",
+          "hash": "3070918586411485092"
+        },
+        {
+          "file": "packages/libs/redis/package.json",
+          "hash": "17336527582955258228",
+          "deps": [
+            "npm:ioredis"
+          ]
+        }
+      ],
+      "@eshop/prisma": [
+        {
+          "file": "packages/libs/prisma/index.ts",
+          "hash": "13396497000417360874",
+          "deps": [
+            "npm:@prisma/client"
+          ]
+        },
+        {
+          "file": "packages/libs/prisma/package.json",
+          "hash": "2945501024261111354",
+          "deps": [
+            "npm:@prisma/client"
+          ]
+        }
+      ]
+    }
+  }
+}
