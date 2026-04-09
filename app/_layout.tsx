@@ -13,10 +13,14 @@ import "./globals.css";
 
 import Providers from "@/config/providers";
 import { useColorScheme } from "@/hooks/useColorScheme";
+import axios from "axios";
+
+// ignore ngrok browser warning
+axios.defaults.headers.common['ngrok-skip-browser-warning'] = 'include';
 
 export default function RootLayout() {
   LogBox.ignoreAllLogs();
-  
+
   const colorScheme = useColorScheme();
   const [loaded] = useFonts({
     SpaceMono: require("../assets/fonts/SpaceMono-Regular.ttf"),
