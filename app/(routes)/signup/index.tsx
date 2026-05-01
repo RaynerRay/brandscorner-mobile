@@ -27,7 +27,7 @@ const signupUser = async (userData: SignupFormData) => {
   try {
     const response = await axios.post(
       `${process.env.EXPO_PUBLIC_SERVER_URI}/auth/api/user-registration`,
-      userData
+      userData,
     );
 
     return response.data;
@@ -45,11 +45,11 @@ const signupUser = async (userData: SignupFormData) => {
         throw new Error(errorData?.message || "Invalid input data");
       } else if (status === 409) {
         throw new Error(
-          errorData?.message || "User already exist with this email"
+          errorData?.message || "User already exist with this email",
         );
       } else if (status >= 500) {
         throw new Error(
-          errorData?.message || "Server error. Please try again later!"
+          errorData?.message || "Server error. Please try again later!",
         );
       } else {
         throw new Error(errorData?.message || "Signup failed");
@@ -315,7 +315,7 @@ export default function SignupScreen() {
             </TouchableOpacity>
 
             {/* Facebook Sign In */}
-            <TouchableOpacity
+            {/* <TouchableOpacity
               className="flex-row items-center justify-center bg-white border border-gray-200 rounded-xl py-4"
               disabled={signupMutation.isPending}
             >
@@ -328,7 +328,7 @@ export default function SignupScreen() {
               <Text className="text-gray-800 text-base font-poppins-medium ml-3">
                 Sign Up with Facebook
               </Text>
-            </TouchableOpacity>
+            </TouchableOpacity> */}
           </View>
 
           {/* Switch to Sign Up Link */}

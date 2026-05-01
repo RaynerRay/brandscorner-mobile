@@ -28,7 +28,7 @@ const loginUser = async (userData: LoginFormData) => {
   try {
     const response = await axios.post(
       `${process.env.EXPO_PUBLIC_SERVER_URI}/auth/api/login-user`,
-      userData
+      userData,
     );
 
     return response.data;
@@ -48,20 +48,20 @@ const loginUser = async (userData: LoginFormData) => {
       } else if (status === 401) {
         throw new Error(
           errorData?.message ||
-            "Invalid credentials. Please check your email and password."
+            "Invalid credentials. Please check your email and password.",
         );
       } else if (status === 404) {
         throw new Error(
-          errorData?.message || "Account not found. Please sign up first."
+          errorData?.message || "Account not found. Please sign up first.",
         );
       } else if (status === 429) {
         throw new Error(
           errorData?.message ||
-            "Too many login attempts. Please try again later."
+            "Too many login attempts. Please try again later.",
         );
       } else if (status >= 500) {
         throw new Error(
-          errorData?.message || "Server error. Please try again later."
+          errorData?.message || "Server error. Please try again later.",
         );
       } else {
         throw new Error(errorData?.message || "Login failed");
@@ -310,7 +310,7 @@ export default function LoginScreen() {
             </TouchableOpacity>
 
             {/* Facebook Sign In */}
-            <TouchableOpacity
+            {/* <TouchableOpacity
               className="flex-row items-center justify-center bg-white border border-gray-200 rounded-xl py-4"
               disabled={loginMutation.isPending}
             >
@@ -323,7 +323,7 @@ export default function LoginScreen() {
               <Text className="text-gray-800 text-base font-poppins-medium ml-3">
                 Sign In with Facebook
               </Text>
-            </TouchableOpacity>
+            </TouchableOpacity> */}
           </View>
 
           {/* Switch to Sign Up Link */}
