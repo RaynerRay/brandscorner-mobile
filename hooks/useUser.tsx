@@ -1,7 +1,7 @@
 import * as SecureStore from "expo-secure-store";
 import { useEffect, useState } from "react";
 
-interface User {
+export interface User {
   id: string;
   name: string;
   email: string;

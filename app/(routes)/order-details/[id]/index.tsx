@@ -70,7 +70,8 @@ interface Order {
 }
 
 export default function OrderDetailsScreen() {
-  const { id } = useLocalSearchParams<{ id: string }>();
+  const params = useLocalSearchParams();
+  const id = params.id as string;
 
   const { data: order, isLoading } = useQuery({
     queryKey: ["order", id],

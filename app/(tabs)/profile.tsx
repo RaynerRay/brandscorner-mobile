@@ -1,9 +1,11 @@
-import useUser from "@/hooks/useUser";
+import useUser, { User } from "@/hooks/useUser";
 import axiosInstance from "@/utils/axiosInstance";
+import { useStore } from "@/store";
 import { Ionicons, SimpleLineIcons } from "@expo/vector-icons";
 import * as ImagePicker from "expo-image-picker";
 import { router } from "expo-router";
 import * as SecureStore from "expo-secure-store";
+import { useQuery } from "@tanstack/react-query";
 import React, { useState } from "react";
 import {
   Image,
@@ -19,6 +21,28 @@ import { toast } from "sonner-native";
 
 export default function Profile() {
   const { user, updateUserData } = useUser();
+  const cart = useStore((state: any) => state.cart);
+  const cartCount = cart.reduce((sum: number, item: any) => sum + (item.quantity || 1), 0);
+
+  const { data: ordersData } = useQuery({
+    queryKey: ["orders"],
+    queryFn: async () => {
+      const res = await axiosInstance.get("/order/api/get-user-orders");
+      return res.data.orders as any[];
+    },
+  });
+
+  const { data: followingData } = useQuery({
+    queryKey: ["user-following-count"],
+    queryFn: async () => {
+      const res = await axiosInstance.get("/seller/api/user-following-count");
+      return res.data.count as number;
+    },
+  });
+
+  const ordersCount = ordersData?.length ?? 0;
+  const followingCount = followingData ?? 0;
+
   const [showPhotoModal, setShowPhotoModal] = useState(false);
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const [uploadedImageUrl, setUploadedImageUrl] = useState<string | null>(null);
@@ -232,7 +256,7 @@ export default function Profile() {
       if (response.data.success) {
         // Update user data with new avatar
         if (response.data.user) {
-          await updateUserData(response.data.user);
+          await updateUserData(response.data.user as User);
         }
 
         toast.success("Profile photo updated successfully!");
@@ -602,7 +626,7 @@ export default function Profile() {
                   </Text>
                 </View>
                 <Text className="text-xl font-poppins-bold text-gray-900">
-                  1
+                  {ordersCount}
                 </Text>
               </View>
 
@@ -612,13 +636,13 @@ export default function Profile() {
                     name="user-following"
                     size={16}
                     color="#6B7280"
-                  />{" "}
+                  />
                   <Text className="text-gray-600 font-poppins-medium ml-2 text-sm">
                     Following
                   </Text>
                 </View>
                 <Text className="text-xl font-poppins-bold text-gray-900">
-                  1
+                  {followingCount}
                 </Text>
               </View>
 
@@ -630,7 +654,7 @@ export default function Profile() {
                   </Text>
                 </View>
                 <Text className="text-xl font-poppins-bold text-gray-900">
-                  1
+                  {cartCount}
                 </Text>
               </View>
             </View>

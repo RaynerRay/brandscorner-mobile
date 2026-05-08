@@ -57,10 +57,10 @@ interface Order {
   userId: string;
 }
 
+type StatusFilter = OrderStatus | "all";
+
 export default function MyOrders() {
-  const [selectedStatus, setSelectedStatus] = useState<OrderStatus | "all">(
-    "all"
-  );
+  const [selectedStatus, setSelectedStatus] = useState<StatusFilter>("all");
 
   const { data: ordersData, isLoading } = useQuery({
     queryKey: ["orders"],
@@ -202,9 +202,6 @@ export default function MyOrders() {
                   numberOfLines={2}
                 >
                   {item.product?.title || `Product ${item.productId.slice(-6)}`}
-                  {!item.product?.title && (
-                    <Text className="text-gray-400 text-xs"> (Loading...)</Text>
-                  )}
                 </Text>
                 <Text className="text-gray-500 font-poppins-medium text-sm mt-1">
                   Qty: {item.quantity} • ${item.price.toFixed(2)}
