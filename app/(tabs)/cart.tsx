@@ -51,7 +51,7 @@ const COLLECTION_POINTS = [
 ];
 
 type FulfillmentType = "delivery" | "collection";
-type PaymentMethod = "cash_on_delivery" | "mobile_payment" | "online";
+type PaymentMethod = "cash_on_delivery" | "echocash";
 
 // ── Checkout Sheet ────────────────────────────────────────────────────────────
 
@@ -82,6 +82,7 @@ function CheckoutSheet({
 }: CheckoutSheetProps) {
   const [fulfillment, setFulfillment] = useState<FulfillmentType>("delivery");
   const [paymentMethod, setPaymentMethod] = useState<PaymentMethod>("cash_on_delivery");
+  const [echocashPhone, setEchocashPhone] = useState("");
   const [selectedPoint, setSelectedPoint] = useState(COLLECTION_POINTS[0].id);
   const [isProcessing, setIsProcessing] = useState(false);
   const [sent, setSent] = useState(false);
@@ -130,9 +131,12 @@ function CheckoutSheet({
     }
 
     lines.push("━━━━━━━━━━━━━━━━━━━━━");
-    lines.push(
-      `💳 *Payment:* ${paymentMethod === "cash_on_delivery" ? "Cash on Delivery 💵" : "Mobile Payment 📱"}`
-    );
+    if (paymentMethod === "echocash") {
+      lines.push(`💳 *Payment:* EchoCash 📱`);
+      lines.push(`   EchoCash number: *${echocashPhone}*`);
+    } else {
+      lines.push(`💳 *Payment:* Cash on Delivery 💵`);
+    }
     lines.push("━━━━━━━━━━━━━━━━━━━━━");
     lines.push("Please confirm my order. Thank you! 🙏");
     return lines.join("\n");
@@ -141,6 +145,10 @@ function CheckoutSheet({
   const handleWhatsAppOrder = async () => {
     if (fulfillment === "delivery" && !selectedAddress) {
       toast.error("Please select a delivery address first.");
+      return;
+    }
+    if (paymentMethod === "echocash" && !echocashPhone.trim()) {
+      toast.error("Please enter your EchoCash account phone number.");
       return;
     }
 
@@ -161,6 +169,7 @@ function CheckoutSheet({
         })),
         status: "pending",
         paymentMethod,
+        ...(paymentMethod === "echocash" && { echocashPhone: echocashPhone.trim() }),
         fulfillmentType: fulfillment,
         ...(fulfillment === "delivery" && {
           shippingAddressId: selectedAddress?.id,
@@ -193,40 +202,8 @@ function CheckoutSheet({
     }
   };
 
-  const handleOnlinePayment = async () => {
-    if (!selectedAddress) {
-      toast.error("Please select a delivery address first.");
-      return;
-    }
-
-    setIsProcessing(true);
-    try {
-      const sessionResponse = await axiosInstance.post("/order/api/create-payment-session", {
-        cart: cart.map((item) => ({
-          id: item.id,
-          quantity: item.quantity || 1,
-          sale_price: item.price,
-          shopId: item.shopId,
-        })),
-        selectedAddressId: selectedAddress.id,
-        coupon: storedCouponCode ? { code: storedCouponCode, discountAmount } : null,
-      });
-      const { sessionId } = sessionResponse.data;
-      onClose();
-      router.push({ pathname: "/(routes)/payment", params: { sessionId } });
-    } catch {
-      toast.error("Failed to create payment session. Please try again.");
-    } finally {
-      setIsProcessing(false);
-    }
-  };
-
   const handlePlaceOrder = () => {
-    if (paymentMethod === "online") {
-      handleOnlinePayment();
-    } else {
-      handleWhatsAppOrder();
-    }
+    handleWhatsAppOrder();
   };
 
   const point = COLLECTION_POINTS.find((p) => p.id === selectedPoint)!;
@@ -383,8 +360,7 @@ function CheckoutSheet({
                 {(
                   [
                     { value: "cash_on_delivery", emoji: "💵", label: "Cash on Delivery" },
-                    { value: "mobile_payment", emoji: "📱", label: "Mobile Payment" },
-                    { value: "online", emoji: "💳", label: "Online (Card)" },
+                    { value: "echocash", emoji: "📱", label: "EchoCash" },
                   ] as { value: PaymentMethod; emoji: string; label: string }[]
                 ).map((opt) => (
                   <TouchableOpacity
@@ -402,6 +378,20 @@ function CheckoutSheet({
                     )}
                   </TouchableOpacity>
                 ))}
+                {paymentMethod === "echocash" && (
+                  <View className="mt-1 mb-2">
+                    <Text className="text-xs font-poppins-medium text-gray-600 mb-1">
+                      EchoCash account phone number
+                    </Text>
+                    <TextInput
+                      className="border-2 border-blue-200 rounded-xl px-3 py-2.5 text-sm font-poppins-medium bg-blue-50"
+                      placeholder="e.g. 0771234567"
+                      keyboardType="phone-pad"
+                      value={echocashPhone}
+                      onChangeText={setEchocashPhone}
+                    />
+                  </View>
+                )}
               </View>
             </View>
           ) : (
@@ -459,25 +449,17 @@ function CheckoutSheet({
             </View>
 
             <TouchableOpacity
-              className={`w-full py-4 rounded-xl flex-row items-center justify-center ${isProcessing ? "bg-gray-400" : paymentMethod === "online" ? "bg-blue-600" : "bg-[#25D366]"}`}
+              className={`w-full py-4 rounded-xl flex-row items-center justify-center ${isProcessing ? "bg-gray-400" : "bg-[#25D366]"}`}
               onPress={handlePlaceOrder}
               disabled={isProcessing}
             >
               {isProcessing ? (
                 <ActivityIndicator size="small" color="#fff" />
               ) : (
-                <Ionicons
-                  name={paymentMethod === "online" ? "card-outline" : "logo-whatsapp"}
-                  size={20}
-                  color="#fff"
-                />
+                <Ionicons name="logo-whatsapp" size={20} color="#fff" />
               )}
               <Text className="text-white font-poppins-semibold text-base ml-2">
-                {isProcessing
-                  ? "Processing..."
-                  : paymentMethod === "online"
-                  ? `Pay $${total.toFixed(2)} Online`
-                  : "Place Order via WhatsApp"}
+                {isProcessing ? "Processing..." : "Place Order via WhatsApp"}
               </Text>
             </TouchableOpacity>
           </View>
