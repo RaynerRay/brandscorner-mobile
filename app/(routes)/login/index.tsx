@@ -1,3 +1,4 @@
+import GoogleSignInButton from "@/components/GoogleSignInButton";
 import { storeAccessToken } from "@/utils/axiosInstance";
 import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 import { useMutation } from "@tanstack/react-query";
@@ -7,7 +8,6 @@ import * as SecureStore from "expo-secure-store";
 import React, { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import {
-  Image,
   KeyboardAvoidingView,
   Platform,
   ScrollView,
@@ -289,41 +289,11 @@ export default function LoginScreen() {
           </View>
 
           {/* Social Login Buttons */}
-          <View className="space-y-4 mb-8">
-            {/* Google Sign In */}
-            <TouchableOpacity
-              className="flex-row items-center mb-4 justify-center bg-white border border-gray-200 rounded-xl py-4"
+          <View className="mb-8">
+            <GoogleSignInButton
+              label="Sign In with Google"
               disabled={loginMutation.isPending}
-            >
-              <View className="w-6 h-6 mr-3">
-                <Image
-                  source={{
-                    uri: "https://developers.google.com/identity/images/g-logo.png",
-                  }}
-                  className="w-full h-full"
-                  resizeMode="contain"
-                />
-              </View>
-              <Text className="text-gray-800 text-base font-poppins-medium">
-                Sign In with Google
-              </Text>
-            </TouchableOpacity>
-
-            {/* Facebook Sign In */}
-            {/* <TouchableOpacity
-              className="flex-row items-center justify-center bg-white border border-gray-200 rounded-xl py-4"
-              disabled={loginMutation.isPending}
-            >
-              <Ionicons
-                name="logo-facebook"
-                size={24}
-                color="#1877F2"
-                className="mr-3"
-              />
-              <Text className="text-gray-800 text-base font-poppins-medium ml-3">
-                Sign In with Facebook
-              </Text>
-            </TouchableOpacity> */}
+            />
           </View>
 
           {/* Switch to Sign Up Link */}
