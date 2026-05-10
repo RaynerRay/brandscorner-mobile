@@ -18,6 +18,8 @@ import {
   View,
 } from "react-native";
 import { toast } from "sonner-native";
+import { getCartLineKey } from "@/utils/cartVariant";
+import { colorValueForSwatch } from "@/utils/colorDisplayName";
 
 interface Address {
   id: string;
@@ -100,6 +102,9 @@ function CheckoutSheet({
         ? (item.price * (100 - discountPercent)) / 100
         : item.price;
       lines.push(`${i + 1}. *${item.title}*`);
+      const opt = item.selectedOptions;
+      if (opt?.size) lines.push(`   📐 Size: ${opt.size}`);
+      if (opt?.color) lines.push(`   🎨 Colour: ${opt.color}`);
       lines.push(
         `   Qty: ${item.quantity || 1} × $${unitPrice.toFixed(2)} = *$${(unitPrice * (item.quantity || 1)).toFixed(2)}*` +
           (isDiscounted ? ` _(${discountPercent}% off)_` : "")
@@ -166,6 +171,7 @@ function CheckoutSheet({
           sale_price: item.price,
           shopId: item.shopId,
           title: item.title,
+          selectedOptions: item.selectedOptions ?? {},
         })),
         status: "pending",
         paymentMethod,
@@ -520,18 +526,19 @@ export default function Cart() {
     }
   }, [addresses, selectedAddress, addressesFetched]);
 
-  const handleRemoveFromCart = (productId: string) => {
-    removeFromCart(productId, null, null, "Mobile App");
+  const handleRemoveFromCart = (cartLineKey: string) => {
+    removeFromCart(cartLineKey, null, null, "Mobile App");
     toast.success("Removed from cart");
   };
 
   const handleUpdateQuantity = (product: any, newQuantity: number) => {
+    const lineKey = getCartLineKey(product);
     if (newQuantity <= 0) {
-      handleRemoveFromCart(product.id);
+      handleRemoveFromCart(lineKey);
       return;
     }
 
-    removeFromCart(product.id, null, null, "Mobile App");
+    removeFromCart(lineKey, null, null, "Mobile App");
     addToCart(
       {
         id: product.id,
@@ -540,7 +547,10 @@ export default function Cart() {
         price: product.price,
         image: product.image,
         shopId: product.shopId,
+        colors: product.colors,
+        sizes: product.sizes,
         quantity: newQuantity,
+        selectedOptions: product.selectedOptions,
       },
       null,
       null,
@@ -693,7 +703,7 @@ export default function Cart() {
         <View className="px-4 py-6">
           {cart.map((product) => (
             <View
-              key={product.id}
+              key={getCartLineKey(product)}
               className="bg-white rounded-2xl shadow-lg border border-gray-100 mb-4 overflow-hidden"
             >
               <View className="p-4">
@@ -727,6 +737,36 @@ export default function Cart() {
                       ${product.price}
                     </Text>
 
+                    {(product.selectedOptions?.size ||
+                      product.selectedOptions?.color) && (
+                      <View className="flex-row items-center gap-2 mb-3">
+                        {product.selectedOptions?.size ? (
+                          <Text className="text-xs text-gray-500 font-poppins-medium">
+                            {product.selectedOptions.size}
+                          </Text>
+                        ) : null}
+                        {product.selectedOptions?.color ? (
+                          <>
+                            {product.selectedOptions?.size ? (
+                              <Text className="text-xs text-gray-400 font-poppins-medium">
+                                ·
+                              </Text>
+                            ) : null}
+                            <View
+                              accessibilityRole="image"
+                              accessibilityLabel="Selected color"
+                              className="w-5 h-5 rounded-full border border-gray-300"
+                              style={{
+                                backgroundColor: colorValueForSwatch(
+                                  product.selectedOptions.color
+                                ),
+                              }}
+                            />
+                          </>
+                        ) : null}
+                      </View>
+                    )}
+
                     <View className="flex-row items-center justify-between">
                       <View className="flex-row items-center bg-gray-100 rounded-lg px-3 py-2">
                         <TouchableOpacity
@@ -748,7 +788,9 @@ export default function Cart() {
 
                       <TouchableOpacity
                         className="px-4 py-2"
-                        onPress={() => handleRemoveFromCart(product.id)}
+                        onPress={() =>
+                          handleRemoveFromCart(getCartLineKey(product))
+                        }
                       >
                         <View className="flex-row items-center">
                           <Ionicons name="close" size={16} color="#EF4444" />

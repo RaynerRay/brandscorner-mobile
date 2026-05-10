@@ -1,4 +1,5 @@
 import axiosInstance from "@/utils/axiosInstance";
+import { colorValueForSwatch } from "@/utils/colorDisplayName";
 import { Ionicons } from "@expo/vector-icons";
 import { useQuery } from "@tanstack/react-query";
 import { router } from "expo-router";
@@ -208,11 +209,32 @@ export default function MyOrders() {
                 </Text>
                 {(item?.selectedOptions?.color ||
                   item?.selectedOptions?.size) && (
-                  <Text className="text-gray-400 font-poppins-medium text-xs mt-1">
-                    {[item?.selectedOptions?.size, item?.selectedOptions?.color]
-                      .filter(Boolean)
-                      .join(" • ")}
-                  </Text>
+                  <View className="flex-row items-center gap-2 mt-1">
+                    {item?.selectedOptions?.size ? (
+                      <Text className="text-gray-400 font-poppins-medium text-xs">
+                        {item.selectedOptions.size}
+                      </Text>
+                    ) : null}
+                    {item?.selectedOptions?.color ? (
+                      <>
+                        {item?.selectedOptions?.size ? (
+                          <Text className="text-gray-400 font-poppins-medium text-xs">
+                            •
+                          </Text>
+                        ) : null}
+                        <View
+                          accessibilityRole="image"
+                          accessibilityLabel="Selected color"
+                          className="w-5 h-5 rounded-full border border-gray-300"
+                          style={{
+                            backgroundColor: colorValueForSwatch(
+                              item.selectedOptions.color
+                            ),
+                          }}
+                        />
+                      </>
+                    ) : null}
+                  </View>
                 )}
               </View>
             </View>

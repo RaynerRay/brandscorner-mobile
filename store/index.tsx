@@ -2,45 +2,61 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
 import { sendKafkaEvent } from "../actions/track-user";
+import {
+  buildCartLineId,
+  normalizeCartItemSelectedOptions,
+} from "../utils/cartVariant";
 
-type Product = {
+export type SelectedOptions = {
+  color?: string;
+  size?: string;
+};
+
+type WishlistProduct = {
   id: string;
   slug: string;
   title: string;
   price: number;
   image: string;
-  quantity?: number;
   shopId: string;
+  colors?: string[];
+  sizes?: string[];
+};
+
+type CartProduct = WishlistProduct & {
+  quantity?: number;
+  cartLineId?: string;
+  selectedOptions?: SelectedOptions;
 };
 
 type Store = {
-  cart: Product[];
-  wishlist: Product[];
+  cart: CartProduct[];
+  wishlist: WishlistProduct[];
   addToCart: (
-    product: Product,
+    product: CartProduct,
     user: any,
     location: any,
-    deviceInfo: any
+    deviceInfo: any,
   ) => void;
   removeFromCart: (
-    id: string,
+    cartLineId: string,
     user: any,
     location: any,
-    deviceInfo: any
+    deviceInfo: any,
   ) => void;
   clearCart: () => void;
 
   addToWishlist: (
-    product: Product,
+    product: WishlistProduct,
     user: any,
     location: any,
-    deviceInfo: any
+    deviceInfo: any,
   ) => void;
   removeFromWishlist: (
     id: string,
     user: any,
     location: any,
-    deviceInfo: any
+    deviceInfo: any,
   ) => void;
 };
 
@@ -50,24 +66,49 @@ export const useStore = create<Store>()(
       cart: [],
       wishlist: [],
 
-      // Add to Cart
       addToCart: (product, user, location, deviceInfo) => {
+        const opts = normalizeCartItemSelectedOptions(product.selectedOptions);
+        const cartLineId = buildCartLineId(product.id, opts);
+        const qty = product.quantity ?? 1;
+
         set((state) => {
-          const existing = state.cart.find((item) => item.id === product.id);
-          if (existing) {
+          const idx = state.cart.findIndex(
+            (item) =>
+              (item.cartLineId ??
+                buildCartLineId(
+                  item.id,
+                  normalizeCartItemSelectedOptions(item.selectedOptions),
+                )) === cartLineId,
+          );
+
+          if (idx !== -1) {
             return {
-              cart: state.cart.map((item) =>
-                item.id === product.id
-                  ? { ...item, quantity: (item.quantity ?? 1) + 1 }
-                  : item
+              cart: state.cart.map((item, i) =>
+                i === idx
+                  ? {
+                      ...item,
+                      quantity: (item.quantity ?? 1) + qty,
+                      selectedOptions: opts,
+                      cartLineId,
+                    }
+                  : item,
               ),
             };
           }
+
           return {
-            cart: [...state.cart, { ...product, quantity: product?.quantity }],
+            cart: [
+              ...state.cart,
+              {
+                ...product,
+                quantity: qty,
+                selectedOptions: opts,
+                cartLineId,
+              },
+            ],
           };
         });
-        // send kafka event
+
         if (user?.id && location && deviceInfo) {
           sendKafkaEvent({
             userId: user?.id,
@@ -81,16 +122,27 @@ export const useStore = create<Store>()(
         }
       },
 
-      // remove from cart
-      removeFromCart: (id, user, location, deviceInfo) => {
-        // find the product before calling set
-        const removeProduct = get().cart.find((item) => item.id === id);
+      removeFromCart: (cartLineId, user, location, deviceInfo) => {
+        const removeProduct = get().cart.find(
+          (item) =>
+            (item.cartLineId ??
+              buildCartLineId(
+                item.id,
+                normalizeCartItemSelectedOptions(item.selectedOptions),
+              )) === cartLineId,
+        );
 
         set((state) => ({
-          cart: state.cart?.filter((item) => item.id !== id),
+          cart: state.cart?.filter(
+            (item) =>
+              (item.cartLineId ??
+                buildCartLineId(
+                  item.id,
+                  normalizeCartItemSelectedOptions(item.selectedOptions),
+                )) !== cartLineId,
+          ),
         }));
 
-        // send kafka event
         if (user?.id && location && deviceInfo && removeProduct) {
           sendKafkaEvent({
             userId: user?.id,
@@ -104,12 +156,10 @@ export const useStore = create<Store>()(
         }
       },
 
-      // Clear cart
       clearCart: () => {
         set({ cart: [] });
       },
 
-      // Add to wishlist
       addToWishlist: (product, user, location, deviceInfo) => {
         set((state) => {
           if (state.wishlist.find((item) => item.id === product.id))
@@ -117,7 +167,6 @@ export const useStore = create<Store>()(
           return { wishlist: [...state.wishlist, product] };
         });
 
-        // send kafka event
         if (user?.id && location && deviceInfo) {
           sendKafkaEvent({
             userId: user?.id,
@@ -132,14 +181,12 @@ export const useStore = create<Store>()(
       },
 
       removeFromWishlist: (id, user, location, deviceInfo) => {
-        // Find the product BEFORE calling `set`
         const removeProduct = get().wishlist.find((item) => item.id === id);
 
         set((state) => ({
           wishlist: state.wishlist.filter((item) => item.id !== id),
         }));
 
-        // send kafka event
         if (user?.id && location && deviceInfo && removeProduct) {
           sendKafkaEvent({
             userId: user?.id,
@@ -156,6 +203,6 @@ export const useStore = create<Store>()(
     {
       name: "store-storage",
       storage: createJSONStorage(() => AsyncStorage),
-    }
-  )
+    },
+  ),
 );

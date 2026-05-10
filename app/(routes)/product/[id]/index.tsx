@@ -4,7 +4,7 @@ import axiosInstance from "@/utils/axiosInstance";
 import { Ionicons } from "@expo/vector-icons";
 import { useQuery } from "@tanstack/react-query";
 import { router, useGlobalSearchParams } from "expo-router";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Dimensions,
   Image,
@@ -18,8 +18,15 @@ import {
 import RenderHtml from "react-native-render-html";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { toast } from "sonner-native";
+import { defaultVariantSelection } from "@/utils/cartVariant";
 
 const { width } = Dimensions.get("window");
+
+function formatStoredColor(color: string): string {
+  const c = color.trim();
+  if (!c) return "";
+  return c.startsWith("#") ? c.toUpperCase() : c;
+}
 
 export default function ProductDetailScreen() {
   const { id } = useGlobalSearchParams();
@@ -41,6 +48,15 @@ export default function ProductDetailScreen() {
       return response.data.product;
     },
   });
+
+  useEffect(() => {
+    if (!product?.id) return;
+    const v = defaultVariantSelection(product);
+    setSelectedColor(v.color || "");
+    setSelectedSize(v.size || "");
+    setQuantity(1);
+    setSelectedImageIndex(0);
+  }, [product?.id]);
 
   // Fetch related products
   const { data: relatedProducts, isLoading: relatedLoading } = useQuery({
@@ -104,6 +120,8 @@ export default function ProductDetailScreen() {
           price: product.sale_price || product.regular_price,
           image: product.images?.[0]?.url || "",
           shopId: product.Shop?.id || "",
+          colors: product.colors,
+          sizes: product.sizes,
         },
         user,
         null,
@@ -130,6 +148,12 @@ export default function ProductDetailScreen() {
         image: product.images?.[0]?.url || "",
         shopId: product.Shop?.id || "",
         quantity,
+        colors: product.colors,
+        sizes: product.sizes,
+        selectedOptions: {
+          color: selectedColor,
+          size: selectedSize,
+        },
       },
       user,
       null,
@@ -157,6 +181,12 @@ export default function ProductDetailScreen() {
         image: product.images?.[0]?.url || "",
         shopId: product.Shop?.id || "",
         quantity,
+        colors: product.colors,
+        sizes: product.sizes,
+        selectedOptions: {
+          color: selectedColor,
+          size: selectedSize,
+        },
       },
       user,
       null,
@@ -370,9 +400,13 @@ export default function ProductDetailScreen() {
                       ? "border-blue-600"
                       : "border-gray-300"
                   }`}
-                  style={{
-                    backgroundColor: color.toLowerCase(),
-                  }}
+                      style={{
+                        backgroundColor: /^#([0-9a-f]{3}|[0-9a-f]{6})$/i.test(
+                          color.trim()
+                        )
+                          ? color.trim().toLowerCase()
+                          : "#e5e7eb",
+                      }}
                 >
                   {selectedColor === color && (
                     <View className="w-6 h-6 bg-white rounded-full items-center justify-center">
@@ -487,10 +521,16 @@ export default function ProductDetailScreen() {
                     >
                       <View
                         className="w-6 h-6 rounded-full mr-2 border border-gray-300"
-                        style={{ backgroundColor: color.toLowerCase() }}
+                        style={{
+                          backgroundColor: /^#([0-9a-f]{3}|[0-9a-f]{6})$/i.test(
+                            color.trim()
+                          )
+                            ? color.trim().toLowerCase()
+                            : "#e5e7eb",
+                        }}
                       />
-                      <Text className="text-gray-700 font-medium capitalize">
-                        {color}
+                      <Text className="text-gray-700 font-medium">
+                        {formatStoredColor(color)}
                       </Text>
                     </View>
                   ))}

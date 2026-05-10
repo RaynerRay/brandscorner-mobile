@@ -1,4 +1,5 @@
 import { useStore } from "@/store";
+import { defaultVariantSelection } from "@/utils/cartVariant";
 import { Ionicons } from "@expo/vector-icons";
 import { router } from "expo-router";
 import React from "react";
@@ -13,6 +14,7 @@ export default function Wishlist() {
   };
 
   const handleAddToCart = (product: any) => {
+    const opts = defaultVariantSelection(product);
     addToCart(
       {
         id: product.id,
@@ -21,7 +23,10 @@ export default function Wishlist() {
         price: product.price,
         image: product.image,
         shopId: product.shopId,
+        colors: product.colors,
+        sizes: product.sizes,
         quantity: 1,
+        selectedOptions: opts,
       },
       null,
       null,

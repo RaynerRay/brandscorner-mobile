@@ -54,6 +54,8 @@ export default function ProductSection({
           price: product.sale_price || product.regular_price,
           image: product.images?.[0]?.url || "",
           shopId: product.Shop?.id || "",
+          colors: product.colors,
+          sizes: product.sizes,
         },
         user,
         null,
