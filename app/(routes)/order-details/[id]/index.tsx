@@ -62,6 +62,7 @@ interface Order {
   total: number;
   status: string;
   deliveryStatus: OrderStatus;
+  fulfillmentType?: string;
   items: OrderItem[];
   couponCode?: CouponCode;
   discountAmount?: number;
@@ -241,6 +242,9 @@ export default function OrderDetailsScreen() {
               <View className="items-end">
                 <Text className="text-gray-500 font-poppins-medium text-sm">Total Amount</Text>
                 <Text className="text-2xl font-poppins-bold text-gray-900">${order.total.toFixed(2)}</Text>
+                {order.fulfillmentType === "delivery" && (
+                  <Text className="text-xs font-poppins-medium text-gray-600 mt-0.5">+ delivery fee</Text>
+                )}
               </View>
             </View>
           </View>
@@ -345,9 +349,14 @@ export default function OrderDetailsScreen() {
                 </View>
               )}
               
-              <View className="flex-row justify-between pt-3 border-t border-gray-100">
-                <Text className="text-lg font-poppins-bold text-gray-900">Total</Text>
-                <Text className="text-lg font-poppins-bold text-gray-900">${order.total.toFixed(2)}</Text>
+              <View className="flex-row justify-between items-start pt-3 border-t border-gray-100">
+                <Text className="text-lg font-poppins-bold text-gray-900 pt-0.5">Total</Text>
+                <View className="items-end">
+                  <Text className="text-lg font-poppins-bold text-gray-900">${order.total.toFixed(2)}</Text>
+                  {order.fulfillmentType === "delivery" && (
+                    <Text className="text-xs font-poppins-medium text-gray-600 mt-0.5">+ delivery fee</Text>
+                  )}
+                </View>
               </View>
             </View>
           </View>

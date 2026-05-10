@@ -49,6 +49,7 @@ interface Order {
   total: number;
   status: string;
   deliveryStatus: OrderStatus;
+  fulfillmentType?: string;
   items: OrderItem[];
   couponCode?: string;
   discountAmount?: number;
@@ -176,6 +177,11 @@ export default function MyOrders() {
               <Text className="text-xl font-poppins-bold text-gray-900">
                 ${order.total.toFixed(2)}
               </Text>
+              {order.fulfillmentType === "delivery" && (
+                <Text className="text-xs font-poppins-medium text-gray-600 mt-0.5">
+                  + delivery fee
+                </Text>
+              )}
             </View>
           </View>
         </View>

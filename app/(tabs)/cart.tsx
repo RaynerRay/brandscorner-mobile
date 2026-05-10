@@ -275,7 +275,6 @@ function CheckoutSheet({
         fulfillmentType: fulfillment,
         ...(fulfillment === "delivery" && {
           shippingAddressId: selectedAddress?.id,
-          estimatedDeliveryFee: 0,
           isHarareDelivery: false,
         }),
         ...(fulfillment === "collection" && {
