@@ -23,10 +23,7 @@ import useDeliveryEstimate, {
 } from "@/hooks/useDeliveryEstimate";
 import { getCartLineKey } from "@/utils/cartVariant";
 import { colorValueForSwatch } from "@/utils/colorDisplayName";
-import {
-  DELIVERY_HUBS,
-  deliveryHubForCity,
-} from "@/utils/deliveryEstimate";
+import { DELIVERY_HUBS, deliveryHubForCity } from "@/utils/deliveryEstimate";
 
 interface Address {
   id: string;
@@ -80,8 +77,10 @@ function DeliveryEstimateBannerMobile({
         <View className="mt-2 rounded-xl border border-blue-100 bg-blue-50 px-3 py-2">
           <Text className="text-xs text-blue-800 font-poppins-medium leading-5">
             Enter your street address to see approximate distance from{" "}
-            <Text className="font-poppins-semibold">{hubInfo.referenceLabel}</Text>
-            {" "}and typical delivery time.
+            <Text className="font-poppins-semibold">
+              {hubInfo.referenceLabel}
+            </Text>{" "}
+            and typical delivery time.
           </Text>
         </View>
       );
@@ -90,7 +89,8 @@ function DeliveryEstimateBannerMobile({
       return (
         <View className="mt-2 rounded-xl border border-amber-200 bg-amber-50 px-3 py-2">
           <Text className="text-xs text-amber-900 font-poppins-medium leading-5">
-            We couldn't locate that address on the map. Check spelling or add a suburb or landmark.
+            We couldn't locate that address on the map. Check spelling or add a
+            suburb or landmark.
           </Text>
         </View>
       );
@@ -122,12 +122,14 @@ function DeliveryEstimateBannerMobile({
   return (
     <View className="mt-2 rounded-xl border border-emerald-200 bg-emerald-50 px-3 py-2 space-y-1">
       <Text className="text-xs text-emerald-950 font-poppins-medium leading-5">
-        <Text className="font-poppins-semibold">~{e.straightLineKm.toFixed(1)} km</Text>
-        {" "}from {e.hubReference} (straight-line; roads are often longer).
+        <Text className="font-poppins-semibold">
+          ~{e.straightLineKm.toFixed(1)} km
+        </Text>{" "}
+        from {e.hubReference} (straight-line; roads are often longer).
       </Text>
       <Text className="text-xs text-emerald-950 font-poppins-medium leading-5">
-        <Text className="font-poppins-semibold">Avg. delivery time:</Text>
-        {" "}~{e.avgTimeRange} (typical, not guaranteed).
+        <Text className="font-poppins-semibold">Avg. delivery time:</Text> ~
+        {e.avgTimeRange} (typical, not guaranteed).
       </Text>
     </View>
   );
@@ -163,7 +165,8 @@ function CheckoutSheet({
   onOrderPlaced,
 }: CheckoutSheetProps) {
   const [fulfillment, setFulfillment] = useState<FulfillmentType>("delivery");
-  const [paymentMethod, setPaymentMethod] = useState<PaymentMethod>("cash_on_delivery");
+  const [paymentMethod, setPaymentMethod] =
+    useState<PaymentMethod>("cash_on_delivery");
   const [echocashPhone, setEchocashPhone] = useState("");
   const [selectedPoint, setSelectedPoint] = useState(COLLECTION_POINTS[0].id);
   const [isProcessing, setIsProcessing] = useState(false);
@@ -187,13 +190,15 @@ function CheckoutSheet({
       if (opt?.color) lines.push(`   🎨 Colour: ${opt.color}`);
       lines.push(
         `   Qty: ${item.quantity || 1} × $${unitPrice.toFixed(2)} = *$${(unitPrice * (item.quantity || 1)).toFixed(2)}*` +
-          (isDiscounted ? ` _(${discountPercent}% off)_` : "")
+          (isDiscounted ? ` _(${discountPercent}% off)_` : ""),
       );
     });
 
     lines.push("━━━━━━━━━━━━━━━━━━━━━");
     if (discountAmount > 0)
-      lines.push(`🏷️ Coupon *${storedCouponCode}*: -$${discountAmount.toFixed(2)}`);
+      lines.push(
+        `🏷️ Coupon *${storedCouponCode}*: -$${discountAmount.toFixed(2)}`,
+      );
     lines.push(`🛒 Items Total: $${total.toFixed(2)}`);
 
     if (fulfillment === "delivery") {
@@ -201,7 +206,9 @@ function CheckoutSheet({
       lines.push("🚚 *Delivery*");
       if (selectedAddress) {
         lines.push(`📦 *Deliver to:* ${selectedAddress.name}`);
-        lines.push(`   ${selectedAddress.street}, ${selectedAddress.city}, ${selectedAddress.zip}`);
+        lines.push(
+          `   ${selectedAddress.street}, ${selectedAddress.city}, ${selectedAddress.zip}`,
+        );
         lines.push(`   ${selectedAddress.country}`);
       }
       if (deliveryEstimate.status === "ok") {
@@ -262,7 +269,9 @@ function CheckoutSheet({
         })),
         status: "pending",
         paymentMethod,
-        ...(paymentMethod === "echocash" && { echocashPhone: echocashPhone.trim() }),
+        ...(paymentMethod === "echocash" && {
+          echocashPhone: echocashPhone.trim(),
+        }),
         fulfillmentType: fulfillment,
         ...(fulfillment === "delivery" && {
           shippingAddressId: selectedAddress?.id,
@@ -271,7 +280,11 @@ function CheckoutSheet({
         }),
         ...(fulfillment === "collection" && {
           collectionPoint: collectionPoint
-            ? { id: collectionPoint.id, name: collectionPoint.name, address: collectionPoint.address }
+            ? {
+                id: collectionPoint.id,
+                name: collectionPoint.name,
+                address: collectionPoint.address,
+              }
             : null,
         }),
         coupon: {
@@ -286,7 +299,9 @@ function CheckoutSheet({
       if (res.data?.order?.id) onOrderPlaced();
 
       const msg = encodeURIComponent(buildWhatsAppMessage());
-      await Linking.openURL(`https://wa.me/${WHATSAPP_BUSINESS_NUMBER}?text=${msg}`);
+      await Linking.openURL(
+        `https://wa.me/${WHATSAPP_BUSINESS_NUMBER}?text=${msg}`,
+      );
       setSent(true);
     } catch {
       toast.error("Could not place your order. Please try again.");
@@ -311,7 +326,9 @@ function CheckoutSheet({
       <SafeAreaView className="flex-1 bg-white">
         {/* Header */}
         <View className="flex-row items-center justify-between p-4 border-b border-gray-100">
-          <Text className="text-xl font-poppins-bold text-gray-900">Review & Place Order</Text>
+          <Text className="text-xl font-poppins-bold text-gray-900">
+            Review & Place Order
+          </Text>
           {!sent && (
             <TouchableOpacity onPress={onClose}>
               <Ionicons name="close" size={24} color="#6B7280" />
@@ -331,16 +348,23 @@ function CheckoutSheet({
                 <View key={item.id} className="flex-row items-center mb-3">
                   <Image
                     source={{
-                      uri: item.image || "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=300&h=300&fit=crop",
+                      uri:
+                        item.image ||
+                        "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=300&h=300&fit=crop",
                     }}
                     className="w-12 h-12 rounded-xl border border-gray-100 mr-3"
                     resizeMode="cover"
                   />
                   <View className="flex-1 mr-2">
-                    <Text className="text-sm font-poppins-semibold text-gray-900" numberOfLines={1}>
+                    <Text
+                      className="text-sm font-poppins-semibold text-gray-900"
+                      numberOfLines={1}
+                    >
                       {item.title}
                     </Text>
-                    <Text className="text-xs text-gray-400 font-poppins-medium">Qty {item.quantity || 1}</Text>
+                    <Text className="text-xs text-gray-400 font-poppins-medium">
+                      Qty {item.quantity || 1}
+                    </Text>
                   </View>
                   <View className="items-end">
                     {isDiscounted && (
@@ -348,7 +372,9 @@ function CheckoutSheet({
                         ${(item.price * (item.quantity || 1)).toFixed(2)}
                       </Text>
                     )}
-                    <Text className={`text-sm font-poppins-semibold ${isDiscounted ? "text-green-600" : "text-gray-800"}`}>
+                    <Text
+                      className={`text-sm font-poppins-semibold ${isDiscounted ? "text-green-600" : "text-gray-800"}`}
+                    >
                       ${(unitPrice * (item.quantity || 1)).toFixed(2)}
                     </Text>
                   </View>
@@ -369,8 +395,14 @@ function CheckoutSheet({
                     className={`flex-1 flex-row items-center justify-center py-2.5 rounded-lg mr-1 ${fulfillment === "delivery" ? "bg-gray-900" : "bg-transparent"}`}
                     onPress={() => setFulfillment("delivery")}
                   >
-                    <Ionicons name="car-outline" size={16} color={fulfillment === "delivery" ? "#fff" : "#6B7280"} />
-                    <Text className={`ml-1.5 text-sm font-poppins-semibold ${fulfillment === "delivery" ? "text-white" : "text-gray-600"}`}>
+                    <Ionicons
+                      name="car-outline"
+                      size={16}
+                      color={fulfillment === "delivery" ? "#fff" : "#6B7280"}
+                    />
+                    <Text
+                      className={`ml-1.5 text-sm font-poppins-semibold ${fulfillment === "delivery" ? "text-white" : "text-gray-600"}`}
+                    >
                       Delivery
                     </Text>
                   </TouchableOpacity>
@@ -378,8 +410,14 @@ function CheckoutSheet({
                     className={`flex-1 flex-row items-center justify-center py-2.5 rounded-lg ${fulfillment === "collection" ? "bg-gray-900" : "bg-transparent"}`}
                     onPress={() => setFulfillment("collection")}
                   >
-                    <Ionicons name="storefront-outline" size={16} color={fulfillment === "collection" ? "#fff" : "#6B7280"} />
-                    <Text className={`ml-1.5 text-sm font-poppins-semibold ${fulfillment === "collection" ? "text-white" : "text-gray-600"}`}>
+                    <Ionicons
+                      name="storefront-outline"
+                      size={16}
+                      color={fulfillment === "collection" ? "#fff" : "#6B7280"}
+                    />
+                    <Text
+                      className={`ml-1.5 text-sm font-poppins-semibold ${fulfillment === "collection" ? "text-white" : "text-gray-600"}`}
+                    >
                       Collect
                     </Text>
                   </TouchableOpacity>
@@ -392,11 +430,19 @@ function CheckoutSheet({
                   {selectedAddress ? (
                     <>
                       <View className="flex-row items-start bg-gray-50 rounded-xl p-3 border border-gray-200">
-                        <Ionicons name="location-outline" size={16} color="#9CA3AF" style={{ marginTop: 2 }} />
+                        <Ionicons
+                          name="location-outline"
+                          size={16}
+                          color="#9CA3AF"
+                          style={{ marginTop: 2 }}
+                        />
                         <View className="ml-2 flex-1">
-                          <Text className="text-sm font-poppins-semibold text-gray-900">{selectedAddress.name}</Text>
+                          <Text className="text-sm font-poppins-semibold text-gray-900">
+                            {selectedAddress.name}
+                          </Text>
                           <Text className="text-xs text-gray-500 font-poppins-medium">
-                            {selectedAddress.street}, {selectedAddress.city}, {selectedAddress.country}
+                            {selectedAddress.street}, {selectedAddress.city},{" "}
+                            {selectedAddress.country}
                           </Text>
                         </View>
                       </View>
@@ -420,7 +466,9 @@ function CheckoutSheet({
                 <View className="mb-5">
                   <Text className="text-xs text-gray-500 font-poppins-medium mb-2">
                     Choose your nearest collection point —{" "}
-                    <Text className="text-green-600 font-poppins-semibold">FREE</Text>
+                    <Text className="text-green-600 font-poppins-semibold">
+                      FREE
+                    </Text>
                   </Text>
                   {COLLECTION_POINTS.map((pt) => (
                     <TouchableOpacity
@@ -438,14 +486,22 @@ function CheckoutSheet({
                           )}
                         </View>
                         <View className="flex-1">
-                          <Text className="text-sm font-poppins-semibold text-gray-900">{pt.name}</Text>
-                          <Text className="text-xs text-gray-500 font-poppins-medium">{pt.address}</Text>
-                          <Text className="text-xs text-gray-400 font-poppins-medium">{pt.city}</Text>
+                          <Text className="text-sm font-poppins-semibold text-gray-900">
+                            {pt.name}
+                          </Text>
+                          <Text className="text-xs text-gray-500 font-poppins-medium">
+                            {pt.address}
+                          </Text>
+                          <Text className="text-xs text-gray-400 font-poppins-medium">
+                            {pt.city}
+                          </Text>
                         </View>
                         <Ionicons
                           name="bag-outline"
                           size={20}
-                          color={selectedPoint === pt.id ? "#111827" : "#D1D5DB"}
+                          color={
+                            selectedPoint === pt.id ? "#111827" : "#D1D5DB"
+                          }
                         />
                       </View>
                     </TouchableOpacity>
@@ -455,10 +511,16 @@ function CheckoutSheet({
 
               {/* Payment method */}
               <View className="mb-5">
-                <Text className="text-sm font-poppins-semibold text-gray-700 mb-2">How will you pay?</Text>
+                <Text className="text-sm font-poppins-semibold text-gray-700 mb-2">
+                  How will you pay?
+                </Text>
                 {(
                   [
-                    { value: "cash_on_delivery", emoji: "💵", label: "Cash on Delivery" },
+                    {
+                      value: "cash_on_delivery",
+                      emoji: "💵",
+                      label: "Cash on Delivery",
+                    },
                     { value: "echocash", emoji: "📱", label: "EchoCash" },
                   ] as { value: PaymentMethod; emoji: string; label: string }[]
                 ).map((opt) => (
@@ -469,11 +531,17 @@ function CheckoutSheet({
                     activeOpacity={0.7}
                   >
                     <Text className="text-2xl mr-3">{opt.emoji}</Text>
-                    <Text className={`text-sm font-poppins-semibold flex-1 ${paymentMethod === opt.value ? "text-blue-700" : "text-gray-700"}`}>
+                    <Text
+                      className={`text-sm font-poppins-semibold flex-1 ${paymentMethod === opt.value ? "text-blue-700" : "text-gray-700"}`}
+                    >
                       {opt.label}
                     </Text>
                     {paymentMethod === opt.value && (
-                      <Ionicons name="checkmark-circle" size={20} color="#2563EB" />
+                      <Ionicons
+                        name="checkmark-circle"
+                        size={20}
+                        color="#2563EB"
+                      />
                     )}
                   </TouchableOpacity>
                 ))}
@@ -511,7 +579,9 @@ function CheckoutSheet({
                 className="w-full py-3 rounded-xl bg-gray-100 items-center"
                 onPress={onClose}
               >
-                <Text className="text-sm font-poppins-semibold text-gray-700">Done</Text>
+                <Text className="text-sm font-poppins-semibold text-gray-700">
+                  Done
+                </Text>
               </TouchableOpacity>
             </View>
           )}
@@ -526,7 +596,10 @@ function CheckoutSheet({
               {discountAmount > 0 && (
                 <View className="flex-row justify-between mb-1">
                   <Text className="text-sm text-gray-500 font-poppins-medium">
-                    Coupon <Text className="text-gray-700 font-poppins-semibold">{storedCouponCode}</Text>
+                    Coupon{" "}
+                    <Text className="text-gray-700 font-poppins-semibold">
+                      {storedCouponCode}
+                    </Text>
                   </Text>
                   <Text className="text-sm text-green-600 font-poppins-semibold">
                     −${discountAmount.toFixed(2)}
@@ -535,14 +608,21 @@ function CheckoutSheet({
               )}
               {fulfillment === "delivery" && (
                 <View className="flex-row justify-between mb-1">
-                  <Text className="text-sm text-gray-500 font-poppins-medium">Delivery fee</Text>
-                  <Text className="text-sm text-gray-700 font-poppins-medium">TBC</Text>
+                  <Text className="text-sm text-gray-500 font-poppins-medium">
+                    Delivery fee
+                  </Text>
+                  <Text className="text-sm text-gray-700 font-poppins-medium">
+                    TBC
+                  </Text>
                 </View>
               )}
               <View className="flex-row justify-between pt-2 border-t border-gray-200 mt-1">
-                <Text className="text-base font-poppins-bold text-gray-900">Total</Text>
                 <Text className="text-base font-poppins-bold text-gray-900">
-                  ${total.toFixed(2)}{fulfillment === "delivery" ? " + delivery" : ""}
+                  Total
+                </Text>
+                <Text className="text-base font-poppins-bold text-gray-900">
+                  ${total.toFixed(2)}
+                  {fulfillment === "delivery" ? " + delivery" : ""}
                 </Text>
               </View>
             </View>
@@ -579,11 +659,17 @@ export default function Cart() {
   const [showAddressForm, setShowAddressForm] = useState(false);
   const [inlineAddress, setInlineAddress] = useState({
     label: "Home" as "Home" | "Work" | "Other",
-    name: "", street: "", city: "", zip: "", country: "Zimbabwe",
+    name: "",
+    street: "",
+    city: "",
+    zip: "",
+    country: "Zimbabwe",
     isDefault: true,
   });
   const [isSubmittingAddress, setIsSubmittingAddress] = useState(false);
-  const [savedInlineAddress, setSavedInlineAddress] = useState<Address | null>(null);
+  const [savedInlineAddress, setSavedInlineAddress] = useState<Address | null>(
+    null,
+  );
   const [storedCouponCode, setStoredCouponCode] = useState("");
   const [discountAmount, setDiscountAmount] = useState(0);
   const [discountPercent, setDiscountPercent] = useState(0);
@@ -591,20 +677,19 @@ export default function Cart() {
   const [couponError, setCouponError] = useState("");
   const [showCheckoutSheet, setShowCheckoutSheet] = useState(false);
 
-  const estimateAddress =
-    showAddressForm
+  const estimateAddress = showAddressForm
+    ? {
+        street: inlineAddress.street,
+        city: inlineAddress.city,
+        country: inlineAddress.country,
+      }
+    : (selectedAddress ?? savedInlineAddress)
       ? {
-          street: inlineAddress.street,
-          city: inlineAddress.city,
-          country: inlineAddress.country,
+          street: (selectedAddress ?? savedInlineAddress)!.street,
+          city: (selectedAddress ?? savedInlineAddress)!.city,
+          country: (selectedAddress ?? savedInlineAddress)!.country,
         }
-      : (selectedAddress ?? savedInlineAddress)
-        ? {
-            street: (selectedAddress ?? savedInlineAddress)!.street,
-            city: (selectedAddress ?? savedInlineAddress)!.city,
-            country: (selectedAddress ?? savedInlineAddress)!.country,
-          }
-        : null;
+      : null;
 
   const deliveryEstimate = useDeliveryEstimate(estimateAddress);
 
@@ -613,7 +698,9 @@ export default function Cart() {
     queryKey: ["shipping-addresses"],
     queryFn: async () => {
       try {
-        const response = await axiosInstance.get("/auth/api/shipping-addresses");
+        const response = await axiosInstance.get(
+          "/auth/api/shipping-addresses",
+        );
         return response.data.addresses || [];
       } catch (error) {
         console.error("Error fetching addresses:", error);
@@ -664,7 +751,7 @@ export default function Cart() {
       },
       null,
       null,
-      "Mobile App"
+      "Mobile App",
     );
   };
 
@@ -704,7 +791,9 @@ export default function Cart() {
       setDiscountPercent(percent || 0);
       setDiscountedProductId(productId || "");
       setCouponError("");
-      toast.success(`Coupon "${validCouponCode}" applied! Save: $${discount.toFixed(2)}`);
+      toast.success(
+        `Coupon "${validCouponCode}" applied! Save: $${discount.toFixed(2)}`,
+      );
     } catch (error: any) {
       console.error("Coupon verification error:", error);
       setCouponError(error.response?.data?.message || "Invalid coupon code");
@@ -718,7 +807,7 @@ export default function Cart() {
   const calculateSubtotal = () => {
     return cart.reduce(
       (total, item) => total + item.price * (item.quantity || 1),
-      0
+      0,
     );
   };
 
@@ -729,18 +818,34 @@ export default function Cart() {
 
     if (showAddressForm) {
       const { name, street, city, zip, country } = inlineAddress;
-      const isFormComplete = !!(name.trim() && street.trim() && city.trim() && zip.trim() && country.trim());
+      const isFormComplete = !!(
+        name.trim() &&
+        street.trim() &&
+        city.trim() &&
+        zip.trim() &&
+        country.trim()
+      );
 
       if (isFormComplete) {
         setIsSubmittingAddress(true);
         try {
-          const res = await axiosInstance.post("/auth/api/add-address", { ...inlineAddress });
+          const res = await axiosInstance.post("/auth/api/add-address", {
+            ...inlineAddress,
+          });
           addressToUse = res.data.address;
           queryClient.invalidateQueries({ queryKey: ["shipping-addresses"] });
           setSelectedAddress(addressToUse);
           setSavedInlineAddress(addressToUse);
           setShowAddressForm(false);
-          setInlineAddress({ label: "Home", name: "", street: "", city: "", zip: "", country: "Zimbabwe", isDefault: true });
+          setInlineAddress({
+            label: "Home",
+            name: "",
+            street: "",
+            city: "",
+            zip: "",
+            country: "Zimbabwe",
+            isDefault: true,
+          });
         } catch {
           toast.error("Failed to save address. Please try again.");
           setIsSubmittingAddress(false);
@@ -834,7 +939,9 @@ export default function Cart() {
                   </TouchableOpacity>
 
                   <View className="flex-1">
-                    <TouchableOpacity onPress={() => handleProductPress(product)}>
+                    <TouchableOpacity
+                      onPress={() => handleProductPress(product)}
+                    >
                       <Text
                         className="text-lg font-poppins-semibold text-gray-900 mb-2"
                         numberOfLines={2}
@@ -868,7 +975,7 @@ export default function Cart() {
                               className="w-5 h-5 rounded-full border border-gray-300"
                               style={{
                                 backgroundColor: colorValueForSwatch(
-                                  product.selectedOptions.color
+                                  product.selectedOptions.color,
                                 ),
                               }}
                             />
@@ -880,7 +987,12 @@ export default function Cart() {
                     <View className="flex-row items-center justify-between">
                       <View className="flex-row items-center bg-gray-100 rounded-lg px-3 py-2">
                         <TouchableOpacity
-                          onPress={() => handleUpdateQuantity(product, (product.quantity || 1) - 1)}
+                          onPress={() =>
+                            handleUpdateQuantity(
+                              product,
+                              (product.quantity || 1) - 1,
+                            )
+                          }
                           className="w-8 h-8 bg-white rounded-full items-center justify-center"
                         >
                           <Ionicons name="remove" size={16} color="#6B7280" />
@@ -889,7 +1001,12 @@ export default function Cart() {
                           {product.quantity || 1}
                         </Text>
                         <TouchableOpacity
-                          onPress={() => handleUpdateQuantity(product, (product.quantity || 1) + 1)}
+                          onPress={() =>
+                            handleUpdateQuantity(
+                              product,
+                              (product.quantity || 1) + 1,
+                            )
+                          }
                           className="w-8 h-8 bg-white rounded-full items-center justify-center"
                         >
                           <Ionicons name="add" size={16} color="#6B7280" />
@@ -904,7 +1021,9 @@ export default function Cart() {
                       >
                         <View className="flex-row items-center">
                           <Ionicons name="close" size={16} color="#EF4444" />
-                          <Text className="text-red-500 font-poppins-medium ml-1">Remove</Text>
+                          <Text className="text-red-500 font-poppins-medium ml-1">
+                            Remove
+                          </Text>
                         </View>
                       </TouchableOpacity>
                     </View>
@@ -924,7 +1043,9 @@ export default function Cart() {
 
             {/* Subtotal */}
             <View className="flex-row justify-between items-center mb-4">
-              <Text className="text-gray-600 font-poppins-medium">Subtotal</Text>
+              <Text className="text-gray-600 font-poppins-medium">
+                Subtotal
+              </Text>
               <Text className="text-lg font-poppins-bold text-gray-900">
                 ${subtotal.toFixed(2)}
               </Text>
@@ -946,7 +1067,9 @@ export default function Cart() {
                   className="bg-blue-600 px-6 py-3 rounded-lg"
                   onPress={couponCodeApplyHandler}
                 >
-                  <Text className="text-white font-poppins-semibold">Apply</Text>
+                  <Text className="text-white font-poppins-semibold">
+                    Apply
+                  </Text>
                 </TouchableOpacity>
               </View>
               {couponError ? (
@@ -967,11 +1090,17 @@ export default function Cart() {
                 <Text className="text-lg font-poppins-semibold text-gray-900">
                   Delivery Address
                 </Text>
-                {(selectedAddress || savedInlineAddress) && !showAddressForm && (
-                  <TouchableOpacity onPress={() => setShowAddressForm(true)} className="px-3 py-1">
-                    <Text className="text-blue-600 font-poppins-medium text-sm">+ Add new</Text>
-                  </TouchableOpacity>
-                )}
+                {(selectedAddress || savedInlineAddress) &&
+                  !showAddressForm && (
+                    <TouchableOpacity
+                      onPress={() => setShowAddressForm(true)}
+                      className="px-3 py-1"
+                    >
+                      <Text className="text-blue-600 font-poppins-medium text-sm">
+                        + Add new
+                      </Text>
+                    </TouchableOpacity>
+                  )}
               </View>
 
               {/* Selected address card */}
@@ -980,29 +1109,53 @@ export default function Cart() {
                   <View className="flex-row items-start justify-between">
                     <View className="flex-1 mr-3">
                       <View className="flex-row items-center mb-1">
-                        <View className={`px-2 py-0.5 rounded-full mr-2 ${
-                          (selectedAddress ?? savedInlineAddress)!.label === "Home" ? "bg-blue-100" :
-                          (selectedAddress ?? savedInlineAddress)!.label === "Work" ? "bg-green-100" : "bg-gray-100"
-                        }`}>
-                          <Text className={`text-xs font-poppins-semibold ${
-                            (selectedAddress ?? savedInlineAddress)!.label === "Home" ? "text-blue-700" :
-                            (selectedAddress ?? savedInlineAddress)!.label === "Work" ? "text-green-700" : "text-gray-600"
-                          }`}>{(selectedAddress ?? savedInlineAddress)!.label}</Text>
+                        <View
+                          className={`px-2 py-0.5 rounded-full mr-2 ${
+                            (selectedAddress ?? savedInlineAddress)!.label ===
+                            "Home"
+                              ? "bg-blue-100"
+                              : (selectedAddress ?? savedInlineAddress)!
+                                    .label === "Work"
+                                ? "bg-green-100"
+                                : "bg-gray-100"
+                          }`}
+                        >
+                          <Text
+                            className={`text-xs font-poppins-semibold ${
+                              (selectedAddress ?? savedInlineAddress)!.label ===
+                              "Home"
+                                ? "text-blue-700"
+                                : (selectedAddress ?? savedInlineAddress)!
+                                      .label === "Work"
+                                  ? "text-green-700"
+                                  : "text-gray-600"
+                            }`}
+                          >
+                            {(selectedAddress ?? savedInlineAddress)!.label}
+                          </Text>
                         </View>
                         {(selectedAddress ?? savedInlineAddress)!.isDefault && (
-                          <Text className="text-xs text-gray-400 font-poppins-medium">Default</Text>
+                          <Text className="text-xs text-gray-400 font-poppins-medium">
+                            Default
+                          </Text>
                         )}
                       </View>
                       <Text className="text-sm font-poppins-semibold text-gray-900">
                         {(selectedAddress ?? savedInlineAddress)!.name}
                       </Text>
                       <Text className="text-xs text-gray-500 font-poppins-medium mt-0.5">
-                        {(selectedAddress ?? savedInlineAddress)!.street}, {(selectedAddress ?? savedInlineAddress)!.city}
+                        {(selectedAddress ?? savedInlineAddress)!.street},{" "}
+                        {(selectedAddress ?? savedInlineAddress)!.city}
                       </Text>
                     </View>
                     {addresses.length > 1 && (
-                      <TouchableOpacity onPress={() => setShowAddressModal(true)} className="py-1">
-                        <Text className="text-blue-600 font-poppins-medium text-sm">Change</Text>
+                      <TouchableOpacity
+                        onPress={() => setShowAddressModal(true)}
+                        className="py-1"
+                      >
+                        <Text className="text-blue-600 font-poppins-medium text-sm">
+                          Change
+                        </Text>
                       </TouchableOpacity>
                     )}
                   </View>
@@ -1010,40 +1163,55 @@ export default function Cart() {
               )}
 
               {/* Has saved addresses but none selected */}
-              {!showAddressForm && !(selectedAddress ?? savedInlineAddress) && addresses.length > 0 && (
-                <View className="flex-row">
-                  <TouchableOpacity
-                    onPress={() => setShowAddressModal(true)}
-                    className="flex-1 flex-row items-center justify-center border border-gray-200 rounded-xl py-3 px-3 mr-2"
-                    activeOpacity={0.7}
-                  >
-                    <Ionicons name="location-outline" size={16} color="#9CA3AF" />
-                    <Text className="text-gray-700 font-poppins-medium text-sm ml-1.5">Select saved address</Text>
-                  </TouchableOpacity>
-                  <TouchableOpacity
-                    onPress={() => setShowAddressForm(true)}
-                    className="border-2 border-dashed border-gray-300 rounded-xl px-4 py-3 items-center justify-center"
-                    activeOpacity={0.7}
-                  >
-                    <Ionicons name="add" size={18} color="#9CA3AF" />
-                    <Text className="text-gray-400 font-poppins-medium text-xs">New</Text>
-                  </TouchableOpacity>
-                </View>
-              )}
+              {!showAddressForm &&
+                !(selectedAddress ?? savedInlineAddress) &&
+                addresses.length > 0 && (
+                  <View className="flex-row">
+                    <TouchableOpacity
+                      onPress={() => setShowAddressModal(true)}
+                      className="flex-1 flex-row items-center justify-center border border-gray-200 rounded-xl py-3 px-3 mr-2"
+                      activeOpacity={0.7}
+                    >
+                      <Ionicons
+                        name="location-outline"
+                        size={16}
+                        color="#9CA3AF"
+                      />
+                      <Text className="text-gray-700 font-poppins-medium text-sm ml-1.5">
+                        Select saved address
+                      </Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                      onPress={() => setShowAddressForm(true)}
+                      className="border-2 border-dashed border-gray-300 rounded-xl px-4 py-3 items-center justify-center"
+                      activeOpacity={0.7}
+                    >
+                      <Ionicons name="add" size={18} color="#9CA3AF" />
+                      <Text className="text-gray-400 font-poppins-medium text-xs">
+                        New
+                      </Text>
+                    </TouchableOpacity>
+                  </View>
+                )}
 
               {/* No addresses at all */}
-              {!showAddressForm && !(selectedAddress ?? savedInlineAddress) && addresses.length === 0 && addressesFetched && (
-                <TouchableOpacity
-                  onPress={() => setShowAddressForm(true)}
-                  className="border-2 border-dashed border-gray-300 rounded-xl p-4 flex-row items-center"
-                  activeOpacity={0.7}
-                >
-                  <View className="w-9 h-9 bg-blue-50 rounded-full items-center justify-center mr-3">
-                    <Ionicons name="add" size={20} color="#2563EB" />
-                  </View>
-                  <Text className="text-gray-500 font-poppins-medium text-sm">Add delivery address</Text>
-                </TouchableOpacity>
-              )}
+              {!showAddressForm &&
+                !(selectedAddress ?? savedInlineAddress) &&
+                addresses.length === 0 &&
+                addressesFetched && (
+                  <TouchableOpacity
+                    onPress={() => setShowAddressForm(true)}
+                    className="border-2 border-dashed border-gray-300 rounded-xl p-4 flex-row items-center"
+                    activeOpacity={0.7}
+                  >
+                    <View className="w-9 h-9 bg-blue-50 rounded-full items-center justify-center mr-3">
+                      <Ionicons name="add" size={20} color="#2563EB" />
+                    </View>
+                    <Text className="text-gray-500 font-poppins-medium text-sm">
+                      Add delivery address
+                    </Text>
+                  </TouchableOpacity>
+                )}
 
               {/* Inline address form */}
               {showAddressForm && (
@@ -1055,14 +1223,24 @@ export default function Cart() {
                     {(["Home", "Work", "Other"] as const).map((lbl) => (
                       <TouchableOpacity
                         key={lbl}
-                        onPress={() => setInlineAddress(prev => ({ ...prev, label: lbl }))}
+                        onPress={() =>
+                          setInlineAddress((prev) => ({ ...prev, label: lbl }))
+                        }
                         className={`flex-1 py-2 rounded-xl border-2 items-center mr-1 last:mr-0 ${
-                          inlineAddress.label === lbl ? "border-gray-900 bg-gray-900" : "border-gray-200 bg-white"
+                          inlineAddress.label === lbl
+                            ? "border-gray-900 bg-gray-900"
+                            : "border-gray-200 bg-white"
                         }`}
                       >
-                        <Text className={`font-poppins-semibold text-xs ${
-                          inlineAddress.label === lbl ? "text-white" : "text-gray-600"
-                        }`}>{lbl}</Text>
+                        <Text
+                          className={`font-poppins-semibold text-xs ${
+                            inlineAddress.label === lbl
+                              ? "text-white"
+                              : "text-gray-600"
+                          }`}
+                        >
+                          {lbl}
+                        </Text>
                       </TouchableOpacity>
                     ))}
                   </View>
@@ -1070,47 +1248,68 @@ export default function Cart() {
                     className="border border-gray-200 rounded-xl px-4 py-3 font-poppins-medium text-gray-900 bg-white mb-3"
                     placeholder="Full name *"
                     value={inlineAddress.name}
-                    onChangeText={(val) => setInlineAddress(prev => ({ ...prev, name: val }))}
+                    onChangeText={(val) =>
+                      setInlineAddress((prev) => ({ ...prev, name: val }))
+                    }
                   />
                   <TextInput
                     className="border border-gray-200 rounded-xl px-4 py-3 font-poppins-medium text-gray-900 bg-white mb-3"
                     placeholder="Street address *"
                     value={inlineAddress.street}
-                    onChangeText={(val) => setInlineAddress(prev => ({ ...prev, street: val }))}
+                    onChangeText={(val) =>
+                      setInlineAddress((prev) => ({ ...prev, street: val }))
+                    }
                   />
                   <View className="flex-row mb-3">
                     <TextInput
                       className="flex-1 border border-gray-200 rounded-xl px-4 py-3 font-poppins-medium text-gray-900 bg-white mr-3"
                       placeholder="City *"
                       value={inlineAddress.city}
-                      onChangeText={(val) => setInlineAddress(prev => ({ ...prev, city: val }))}
+                      onChangeText={(val) =>
+                        setInlineAddress((prev) => ({ ...prev, city: val }))
+                      }
                     />
                     <TextInput
                       className="flex-1 border border-gray-200 rounded-xl px-4 py-3 font-poppins-medium text-gray-900 bg-white"
                       placeholder="ZIP *"
                       value={inlineAddress.zip}
-                      onChangeText={(val) => setInlineAddress(prev => ({ ...prev, zip: val }))}
+                      onChangeText={(val) =>
+                        setInlineAddress((prev) => ({ ...prev, zip: val }))
+                      }
                     />
                   </View>
                   <TextInput
                     className="border border-gray-200 rounded-xl px-4 py-3 font-poppins-medium text-gray-900 bg-white mb-3"
                     placeholder="Country *"
                     value={inlineAddress.country}
-                    onChangeText={(val) => setInlineAddress(prev => ({ ...prev, country: val }))}
+                    onChangeText={(val) =>
+                      setInlineAddress((prev) => ({ ...prev, country: val }))
+                    }
                   />
                   <TouchableOpacity
-                    onPress={() => setInlineAddress(prev => ({ ...prev, isDefault: !prev.isDefault }))}
+                    onPress={() =>
+                      setInlineAddress((prev) => ({
+                        ...prev,
+                        isDefault: !prev.isDefault,
+                      }))
+                    }
                     className="flex-row items-center py-2 mb-1"
                     activeOpacity={0.7}
                   >
-                    <View className={`w-5 h-5 rounded border-2 items-center justify-center mr-2 ${
-                      inlineAddress.isDefault ? "bg-gray-900 border-gray-900" : "bg-white border-gray-300"
-                    }`}>
+                    <View
+                      className={`w-5 h-5 rounded border-2 items-center justify-center mr-2 ${
+                        inlineAddress.isDefault
+                          ? "bg-gray-900 border-gray-900"
+                          : "bg-white border-gray-300"
+                      }`}
+                    >
                       {inlineAddress.isDefault && (
                         <Ionicons name="checkmark" size={12} color="#fff" />
                       )}
                     </View>
-                    <Text className="text-xs text-gray-500 font-poppins-medium">Set as default address</Text>
+                    <Text className="text-xs text-gray-500 font-poppins-medium">
+                      Set as default address
+                    </Text>
                   </TouchableOpacity>
                   {(addresses.length > 0 || savedInlineAddress) && (
                     <TouchableOpacity
@@ -1134,17 +1333,26 @@ export default function Cart() {
 
             {/* Collection point teaser */}
             <View className="mb-5 flex-row items-start bg-gray-50 border border-gray-200 rounded-xl p-3">
-              <Ionicons name="storefront-outline" size={16} color="#6B7280" style={{ marginTop: 2 }} />
+              <Ionicons
+                name="storefront-outline"
+                size={16}
+                color="#6B7280"
+                style={{ marginTop: 2 }}
+              />
               <Text className="text-xs text-gray-600 font-poppins-medium flex-1 ml-2">
                 Prefer to collect?{" "}
-                <Text className="font-poppins-semibold text-gray-800">2 shops in Harare CBD.</Text>
-                {" "}Choose collection at checkout.
+                <Text className="font-poppins-semibold text-gray-800">
+                  2 shops in Harare CBD.
+                </Text>{" "}
+                Choose collection at checkout.
               </Text>
             </View>
 
             {/* Total */}
             <View className="flex-row justify-between items-center mb-6 pt-4 border-t border-gray-200">
-              <Text className="text-xl font-poppins-bold text-gray-900">Total</Text>
+              <Text className="text-xl font-poppins-bold text-gray-900">
+                Total
+              </Text>
               <Text className="text-2xl font-poppins-bold text-gray-900">
                 ${(subtotal - discountAmount).toFixed(2)}
               </Text>
@@ -1162,7 +1370,9 @@ export default function Cart() {
                 <Ionicons name="bag-check-outline" size={20} color="#fff" />
               )}
               <Text className="text-white font-poppins-semibold text-lg ml-2">
-                {isSubmittingAddress ? "Saving address…" : "Proceed to Checkout"}
+                {isSubmittingAddress
+                  ? "Saving address…"
+                  : "Proceed to Checkout"}
               </Text>
             </TouchableOpacity>
           </View>
@@ -1188,7 +1398,10 @@ export default function Cart() {
             </TouchableOpacity>
           </View>
 
-          <ScrollView className="flex-1 p-4" showsVerticalScrollIndicator={false}>
+          <ScrollView
+            className="flex-1 p-4"
+            showsVerticalScrollIndicator={false}
+          >
             {addresses.length === 0 ? (
               <View className="flex-1 justify-center items-center py-20">
                 <Ionicons name="location-outline" size={64} color="#9CA3AF" />
@@ -1200,9 +1413,14 @@ export default function Cart() {
                 </Text>
                 <TouchableOpacity
                   className="bg-gray-900 px-6 py-3 rounded-xl mt-6"
-                  onPress={() => { setShowAddressModal(false); setShowAddressForm(true); }}
+                  onPress={() => {
+                    setShowAddressModal(false);
+                    setShowAddressForm(true);
+                  }}
                 >
-                  <Text className="text-white font-poppins-semibold">Add Address</Text>
+                  <Text className="text-white font-poppins-semibold">
+                    Add Address
+                  </Text>
                 </TouchableOpacity>
               </View>
             ) : (
@@ -1211,32 +1429,59 @@ export default function Cart() {
                   <TouchableOpacity
                     key={address.id}
                     className={`border-2 rounded-2xl mb-3 overflow-hidden ${
-                      selectedAddress?.id === address.id ? "border-blue-500 bg-blue-50" : "border-gray-100 bg-white"
+                      selectedAddress?.id === address.id
+                        ? "border-blue-500 bg-blue-50"
+                        : "border-gray-100 bg-white"
                     }`}
-                    onPress={() => { setSelectedAddress(address); setShowAddressModal(false); }}
+                    onPress={() => {
+                      setSelectedAddress(address);
+                      setShowAddressModal(false);
+                    }}
                   >
                     <View className="p-4">
                       <View className="flex-row items-center justify-between mb-2">
                         <View className="flex-row items-center">
                           <Ionicons
-                            name={address.label === "Home" ? "home-outline" : address.label === "Work" ? "business-outline" : "location-outline"}
+                            name={
+                              address.label === "Home"
+                                ? "home-outline"
+                                : address.label === "Work"
+                                  ? "business-outline"
+                                  : "location-outline"
+                            }
                             size={18}
-                            color={address.label === "Home" ? "#2563EB" : address.label === "Work" ? "#059669" : "#6B7280"}
+                            color={
+                              address.label === "Home"
+                                ? "#2563EB"
+                                : address.label === "Work"
+                                  ? "#059669"
+                                  : "#6B7280"
+                            }
                           />
-                          <Text className="text-base font-poppins-semibold text-gray-900 ml-2">{address.name}</Text>
+                          <Text className="text-base font-poppins-semibold text-gray-900 ml-2">
+                            {address.name}
+                          </Text>
                         </View>
                         <View className="flex-row items-center">
                           {address.isDefault && (
                             <View className="bg-blue-100 px-2 py-0.5 rounded-full mr-2">
-                              <Text className="text-blue-700 font-poppins-medium text-xs">Default</Text>
+                              <Text className="text-blue-700 font-poppins-medium text-xs">
+                                Default
+                              </Text>
                             </View>
                           )}
                           {selectedAddress?.id === address.id && (
-                            <Ionicons name="checkmark-circle" size={20} color="#2563EB" />
+                            <Ionicons
+                              name="checkmark-circle"
+                              size={20}
+                              color="#2563EB"
+                            />
                           )}
                         </View>
                       </View>
-                      <Text className="text-gray-600 font-poppins-medium text-sm">{address.street}</Text>
+                      <Text className="text-gray-600 font-poppins-medium text-sm">
+                        {address.street}
+                      </Text>
                       <Text className="text-gray-600 font-poppins-medium text-sm">
                         {address.city}, {address.zip} · {address.country}
                       </Text>
@@ -1246,15 +1491,22 @@ export default function Cart() {
 
                 <TouchableOpacity
                   className="border-2 border-dashed border-gray-300 rounded-2xl p-5 flex-row items-center"
-                  onPress={() => { setShowAddressModal(false); setShowAddressForm(true); }}
+                  onPress={() => {
+                    setShowAddressModal(false);
+                    setShowAddressForm(true);
+                  }}
                   activeOpacity={0.7}
                 >
                   <View className="w-10 h-10 bg-blue-50 rounded-full items-center justify-center mr-3">
                     <Ionicons name="add" size={22} color="#2563EB" />
                   </View>
                   <View>
-                    <Text className="text-gray-900 font-poppins-semibold">Add New Address</Text>
-                    <Text className="text-gray-400 font-poppins-medium text-xs mt-0.5">Saved when you place your order</Text>
+                    <Text className="text-gray-900 font-poppins-semibold">
+                      Add New Address
+                    </Text>
+                    <Text className="text-gray-400 font-poppins-medium text-xs mt-0.5">
+                      Saved when you place your order
+                    </Text>
                   </View>
                 </TouchableOpacity>
               </>
