@@ -5,7 +5,6 @@ import { useQuery } from "@tanstack/react-query";
 import { router } from "expo-router";
 import React, { useState } from "react";
 import {
-  Image,
   ScrollView,
   StatusBar,
   Text,
@@ -186,56 +185,46 @@ export default function MyOrders() {
           {order.items.map((item, index) => (
             <View
               key={item.id}
-              className={`flex-row items-center ${index !== 0 ? "mt-3" : ""}`}
+              className={`${index !== 0 ? "mt-3 pt-3 border-t border-gray-100" : ""}`}
             >
-              <Image
-                source={{
-                  uri:
-                    item.product?.images?.[0]?.url ||
-                    "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=100&h=100&fit=crop",
-                }}
-                className="w-16 h-16 rounded-lg bg-gray-100"
-                resizeMode="cover"
-              />
-              <View className="flex-1 ml-3">
+              <View className="flex-row items-start justify-between">
                 <Text
-                  className="text-gray-900 font-poppins-medium"
+                  className="flex-1 text-gray-900 font-poppins-medium mr-3"
                   numberOfLines={2}
                 >
                   {item.product?.title || `Product ${item.productId.slice(-6)}`}
                 </Text>
-                <Text className="text-gray-500 font-poppins-medium text-sm mt-1">
-                  Qty: {item.quantity} • ${item.price.toFixed(2)}
+                <Text className="text-gray-900 font-poppins-semibold">
+                  ${item.price.toFixed(2)}
                 </Text>
-                {(item?.selectedOptions?.color ||
-                  item?.selectedOptions?.size) && (
-                  <View className="flex-row items-center gap-2 mt-1">
-                    {item?.selectedOptions?.size ? (
-                      <Text className="text-gray-400 font-poppins-medium text-xs">
-                        {item.selectedOptions.size}
-                      </Text>
-                    ) : null}
-                    {item?.selectedOptions?.color ? (
-                      <>
-                        {item?.selectedOptions?.size ? (
-                          <Text className="text-gray-400 font-poppins-medium text-xs">
-                            •
-                          </Text>
-                        ) : null}
-                        <View
-                          accessibilityRole="image"
-                          accessibilityLabel="Selected color"
-                          className="w-5 h-5 rounded-full border border-gray-300"
-                          style={{
-                            backgroundColor: colorValueForSwatch(
-                              item.selectedOptions.color
-                            ),
-                          }}
-                        />
-                      </>
-                    ) : null}
-                  </View>
-                )}
+              </View>
+              <View className="flex-row items-center gap-2 mt-1">
+                <Text className="text-gray-500 font-poppins-medium text-sm">
+                  Qty: {item.quantity}
+                </Text>
+                {item?.selectedOptions?.size ? (
+                  <>
+                    <Text className="text-gray-300 font-poppins-medium text-sm">•</Text>
+                    <Text className="text-gray-500 font-poppins-medium text-sm">
+                      {item.selectedOptions.size}
+                    </Text>
+                  </>
+                ) : null}
+                {item?.selectedOptions?.color ? (
+                  <>
+                    <Text className="text-gray-300 font-poppins-medium text-sm">•</Text>
+                    <View
+                      accessibilityRole="image"
+                      accessibilityLabel="Selected color"
+                      className="w-4 h-4 rounded-full border border-gray-300"
+                      style={{
+                        backgroundColor: colorValueForSwatch(
+                          item.selectedOptions.color
+                        ),
+                      }}
+                    />
+                  </>
+                ) : null}
               </View>
             </View>
           ))}
