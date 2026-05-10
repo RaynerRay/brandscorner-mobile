@@ -18,8 +18,15 @@ import {
   View,
 } from "react-native";
 import { toast } from "sonner-native";
+import useDeliveryEstimate, {
+  type DeliveryEstimate,
+} from "@/hooks/useDeliveryEstimate";
 import { getCartLineKey } from "@/utils/cartVariant";
 import { colorValueForSwatch } from "@/utils/colorDisplayName";
+import {
+  DELIVERY_HUBS,
+  deliveryHubForCity,
+} from "@/utils/deliveryEstimate";
 
 interface Address {
   id: string;
@@ -55,6 +62,77 @@ const COLLECTION_POINTS = [
 type FulfillmentType = "delivery" | "collection";
 type PaymentMethod = "cash_on_delivery" | "echocash";
 
+function DeliveryEstimateBannerMobile({
+  estimate,
+  city,
+}: {
+  estimate: DeliveryEstimate;
+  city: string;
+}) {
+  const hubKey = city.trim() ? deliveryHubForCity(city) : null;
+  const hubInfo = hubKey ? DELIVERY_HUBS[hubKey] : null;
+
+  if (estimate.status === "idle") return null;
+
+  if (estimate.status === "skipped") {
+    if (estimate.reason === "incomplete_address" && hubInfo) {
+      return (
+        <View className="mt-2 rounded-xl border border-blue-100 bg-blue-50 px-3 py-2">
+          <Text className="text-xs text-blue-800 font-poppins-medium leading-5">
+            Enter your street address to see approximate distance from{" "}
+            <Text className="font-poppins-semibold">{hubInfo.referenceLabel}</Text>
+            {" "}and typical delivery time.
+          </Text>
+        </View>
+      );
+    }
+    if (estimate.reason === "geocode_miss") {
+      return (
+        <View className="mt-2 rounded-xl border border-amber-200 bg-amber-50 px-3 py-2">
+          <Text className="text-xs text-amber-900 font-poppins-medium leading-5">
+            We couldn't locate that address on the map. Check spelling or add a suburb or landmark.
+          </Text>
+        </View>
+      );
+    }
+    if (estimate.reason === "error") {
+      return (
+        <View className="mt-2 rounded-xl border border-gray-200 bg-gray-50 px-3 py-2">
+          <Text className="text-xs text-gray-700 font-poppins-medium">
+            Distance estimate unavailable right now. Try again in a moment.
+          </Text>
+        </View>
+      );
+    }
+    return null;
+  }
+
+  if (estimate.status === "loading") {
+    return (
+      <View className="mt-2 flex-row items-center rounded-xl border border-gray-200 bg-white px-3 py-2">
+        <ActivityIndicator size="small" color="#6B7280" />
+        <Text className="text-xs text-gray-600 font-poppins-medium ml-2">
+          Calculating distance from fulfillment hub…
+        </Text>
+      </View>
+    );
+  }
+
+  const e = estimate;
+  return (
+    <View className="mt-2 rounded-xl border border-emerald-200 bg-emerald-50 px-3 py-2 space-y-1">
+      <Text className="text-xs text-emerald-950 font-poppins-medium leading-5">
+        <Text className="font-poppins-semibold">~{e.straightLineKm.toFixed(1)} km</Text>
+        {" "}from {e.hubReference} (straight-line; roads are often longer).
+      </Text>
+      <Text className="text-xs text-emerald-950 font-poppins-medium leading-5">
+        <Text className="font-poppins-semibold">Avg. delivery time:</Text>
+        {" "}~{e.avgTimeRange} (typical, not guaranteed).
+      </Text>
+    </View>
+  );
+}
+
 // ── Checkout Sheet ────────────────────────────────────────────────────────────
 
 interface CheckoutSheetProps {
@@ -67,6 +145,7 @@ interface CheckoutSheetProps {
   discountedProductId: string;
   storedCouponCode: string;
   selectedAddress: Address | null;
+  deliveryEstimate: DeliveryEstimate;
   onOrderPlaced: () => void;
 }
 
@@ -80,6 +159,7 @@ function CheckoutSheet({
   discountedProductId,
   storedCouponCode,
   selectedAddress,
+  deliveryEstimate,
   onOrderPlaced,
 }: CheckoutSheetProps) {
   const [fulfillment, setFulfillment] = useState<FulfillmentType>("delivery");
@@ -123,6 +203,13 @@ function CheckoutSheet({
         lines.push(`📦 *Deliver to:* ${selectedAddress.name}`);
         lines.push(`   ${selectedAddress.street}, ${selectedAddress.city}, ${selectedAddress.zip}`);
         lines.push(`   ${selectedAddress.country}`);
+      }
+      if (deliveryEstimate.status === "ok") {
+        const e = deliveryEstimate;
+        lines.push(
+          `📏 ~${e.straightLineKm.toFixed(1)} km from ${e.hubReference} (straight-line)`,
+        );
+        lines.push(`⏱️ Typical delivery time: ~${e.avgTimeRange}`);
       }
       lines.push(`🚗 Delivery fee: to be confirmed`);
       lines.push(`💰 *Order Total (excl. delivery): $${total.toFixed(2)}*`);
@@ -303,15 +390,21 @@ function CheckoutSheet({
               {fulfillment === "delivery" && (
                 <View className="mb-5">
                   {selectedAddress ? (
-                    <View className="flex-row items-start bg-gray-50 rounded-xl p-3 border border-gray-200">
-                      <Ionicons name="location-outline" size={16} color="#9CA3AF" style={{ marginTop: 2 }} />
-                      <View className="ml-2 flex-1">
-                        <Text className="text-sm font-poppins-semibold text-gray-900">{selectedAddress.name}</Text>
-                        <Text className="text-xs text-gray-500 font-poppins-medium">
-                          {selectedAddress.street}, {selectedAddress.city}, {selectedAddress.country}
-                        </Text>
+                    <>
+                      <View className="flex-row items-start bg-gray-50 rounded-xl p-3 border border-gray-200">
+                        <Ionicons name="location-outline" size={16} color="#9CA3AF" style={{ marginTop: 2 }} />
+                        <View className="ml-2 flex-1">
+                          <Text className="text-sm font-poppins-semibold text-gray-900">{selectedAddress.name}</Text>
+                          <Text className="text-xs text-gray-500 font-poppins-medium">
+                            {selectedAddress.street}, {selectedAddress.city}, {selectedAddress.country}
+                          </Text>
+                        </View>
                       </View>
-                    </View>
+                      <DeliveryEstimateBannerMobile
+                        estimate={deliveryEstimate}
+                        city={selectedAddress.city || ""}
+                      />
+                    </>
                   ) : (
                     <View className="bg-amber-50 border border-amber-200 rounded-xl px-3 py-2.5">
                       <Text className="text-sm text-amber-600 font-poppins-medium">
@@ -497,6 +590,23 @@ export default function Cart() {
   const [discountedProductId, setDiscountedProductId] = useState("");
   const [couponError, setCouponError] = useState("");
   const [showCheckoutSheet, setShowCheckoutSheet] = useState(false);
+
+  const estimateAddress =
+    showAddressForm
+      ? {
+          street: inlineAddress.street,
+          city: inlineAddress.city,
+          country: inlineAddress.country,
+        }
+      : (selectedAddress ?? savedInlineAddress)
+        ? {
+            street: (selectedAddress ?? savedInlineAddress)!.street,
+            city: (selectedAddress ?? savedInlineAddress)!.city,
+            country: (selectedAddress ?? savedInlineAddress)!.country,
+          }
+        : null;
+
+  const deliveryEstimate = useDeliveryEstimate(estimateAddress);
 
   // Fetch shipping addresses
   const { data: addressesData, isFetched: addressesFetched } = useQuery({
@@ -1014,6 +1124,12 @@ export default function Cart() {
                   )}
                 </View>
               )}
+              {estimateAddress && (
+                <DeliveryEstimateBannerMobile
+                  estimate={deliveryEstimate}
+                  city={estimateAddress.city}
+                />
+              )}
             </View>
 
             {/* Collection point teaser */}
@@ -1160,6 +1276,7 @@ export default function Cart() {
         discountedProductId={discountedProductId}
         storedCouponCode={storedCouponCode}
         selectedAddress={selectedAddress ?? savedInlineAddress}
+        deliveryEstimate={deliveryEstimate}
         onOrderPlaced={handleOrderPlaced}
       />
     </SafeAreaView>
